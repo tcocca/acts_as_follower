@@ -1,0 +1,104 @@
+ActsAsFollower
+==============
+
+acts_as_follower is a plugin to allow any model to "follow" any other model.
+
+Main uses would be for Users to follow other Users or for Users to follow Books, etc...
+
+(Basics to develop the type of follow system that GitHub has)
+
+Install
+=======
+
+* Run the following command:
+	./script/plugin install git://github.com/tcocca/acts_as_follower.git 
+	
+* Create a new rails migration using the generator:
+	./script/generate acts_as_follower_migration
+
+
+Usage & Examples
+=======
+
+Make your model(s) that you want to allow to to follow acts_as_followable
+
+ 	class User < ActiveRecord::Base
+ 		...
+ 		acts_as_followable
+ 		...
+ 	end
+ 	
+ 	class Book < ActiveRecord::Base
+ 		...
+ 		acts_as_followable
+ 		...
+ 	end
+ 
+Make your model(s) that can follow other model(s) acts_as_follower
+
+ 	class User < ActiveRecord::Base
+ 		...
+ 		acts_as_follower
+ 		...
+ 	end
+
+ActsAsFollower Methods
+
+- To have a Model object start following another use the following:
+
+		book = Book.find(1)
+		current_user.follow(book) # Creates a record for the current_user as the follower and the book as the followable
+
+- To stop following a Model object use the following
+
+		current_user.stop_following(book) # Deletes that record in the Follow table
+
+- You can check to see if a Model that acts_as_follower is following a Model acts_as_followable through the following:
+
+		current_user.following?(book) # Returns true or false
+
+- To get all of the records that a Model is following use the following on a model that acts_as_follower
+
+		current_user.all_follows # Returns an array of every follow for the current_user
+		
+- To get all follows by a certain type use the following on a model that acts_as_follower
+
+		current_user.follows_by_type('Book') # Returns an array of all follows for current user where followable_type is 'Book'
+		
+- To get the total number (count) of follows for a user use the following on a model that acts_as_follower
+
+		current_user.follow_count # Returns and integer
+
+
+# ActsAsFollowable Methods
+
+- To get all the followers of a model that acts_as_followable
+
+		book = Book.find(1)
+		book.followers  # Returns an array of all the followers for that book
+		
+- To get just the number of follows use
+
+		book.follows_count
+		
+- To see is a model that acts_as_followable is followed by a model that acts_as_follower use the following
+
+		book.followed_by?(current_user) # Returns true or false depending on if current_user is following book
+
+
+Comments
+=======
+
+If anyone has comments or questions please let me know (tom dot cocca at gmail dot com)
+If you have updates or patches or want to contribute I would love to see what you have or want to add
+
+
+TODO
+=======
+
+* Testing
+* Add Example Usage code to the plugin
+* Possibly add hooks for model observer code or after_save or after_update code
+	- Any ideas on this are more than welcome, just email me.
+
+Copyright (c) 2008 Tom Cocca ( tom dot cocca at gmail dot com ), released under the MIT license
