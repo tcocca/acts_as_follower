@@ -24,7 +24,7 @@ module ActiveRecord
         
         def following?(followable)
           0 < Follow.count(:all, :conditions => [
-                "follower_id = ? AND follower_type = ? AND followable_id = ? AND gollowable_type = ?",
+                "follower_id = ? AND follower_type = ? AND followable_id = ? AND followable_type = ?",
                  self.id, self.class.name, followable.id, followable.class.name
                ])
         end
