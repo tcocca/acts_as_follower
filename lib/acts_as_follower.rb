@@ -34,7 +34,10 @@ module ActiveRecord
         end
         
         def follow(followable)
-          Follow.create(:followable => followable, :follower => self)
+          follow = get_follow(followable)
+          unless follow
+            Follow.create(:followable => followable, :follower => self)
+          end
         end
         
         def stop_following(followable)
