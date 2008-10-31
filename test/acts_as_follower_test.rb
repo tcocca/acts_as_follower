@@ -66,4 +66,9 @@ class ActsAsFollowerTest < Test::Unit::TestCase
     assert_equal [users(:jon)], users(:sam).following_by_type('User')
   end
   
+  def test_method_missing_should_call_following_by_type
+    assert_equal [bands(:oasis)], users(:sam).following_bands
+    assert_equal [users(:jon)], users(:sam).following_users
+  end
+  
 end

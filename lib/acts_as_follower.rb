@@ -68,6 +68,16 @@ module ActiveRecord
           follows_by_type(followable_type).map { |f| f.followable}
         end
         
+        # Allows magic names on following_by_type
+        # e.g. following_users == following_by_type('User')
+        def method_missing(m, *args)
+          if m.to_s[/following_(.+)/]
+            following_by_type($1.classify)
+          else
+            super
+          end
+        end
+        
         private
         
         # Returns a follow record for the current instance and followable object.
