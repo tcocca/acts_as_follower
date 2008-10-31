@@ -20,3 +20,17 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_files.include('README')
   rdoc.rdoc_files.include('lib/**/*.rb')
 end
+
+namespace :rcov do
+
+  desc "Generate a coverage report in coverage/"
+  task :gen do
+    sh "rcov --output coverage test/*_test.rb"
+  end
+
+  desc "Remove generated coverage files."
+  task :clobber do
+    sh "rm -rdf coverage"
+  end
+
+end

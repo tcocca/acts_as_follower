@@ -1,6 +1,13 @@
-one:
+user:
   id: 1
   followable_id: 1
   followable_type: User
+  follower_id: 2
+  follower_type: User
+  
+band:
+  id: 2
+  followable_id: 1
+  followable_type: Band
   follower_id: 2
   follower_type: User
