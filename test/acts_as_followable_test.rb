@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class ActsAsFollowerTest < Test::Unit::TestCase
+class ActsAsFollowableTest < Test::Unit::TestCase
   fixtures :users, :follows
   
   def test_instance_methods_should_be_defined
