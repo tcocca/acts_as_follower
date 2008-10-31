@@ -10,30 +10,28 @@ module ActiveRecord
         def acts_as_followable
           has_many :follows, :as => :followable, :dependent => :nullify
           include ActiveRecord::Acts::Followable::InstanceMethods
-          extend  ActiveRecord::Acts::Followable::SingletonMethods
         end
       end
-      
-      # This module contains class methods
-      module SingletonMethods
-        
-      end
+
       
       # This module contains instance methods
       module InstanceMethods
         
+        # Returns the number of followers a record has.
         def followers_count
           self.follows.size
         end
         
+        # Returns the following records.
         def followers
           self.follows.collect{ |f| f.follower }
         end
         
+        # Returns true if the current instance is followed by the passed record.
         def followed_by?(follwer)
           rtn = false
           self.follows.each do |f|
-            rtn = true if follower.id == f.follower.id && follower.class.name == f.follwer_type 
+            rtn = true if follwer.id == f.follower_id && follwer.class.name == f.follower_type 
           end
           rtn
         end
