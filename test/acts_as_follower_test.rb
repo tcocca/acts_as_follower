@@ -71,4 +71,8 @@ class ActsAsFollowerTest < Test::Unit::TestCase
     assert_equal [users(:jon)], users(:sam).following_users
   end
   
+  def test_method_missing_should_raise
+    assert_raises (NoMethodError){ users(:sam).foobar }
+  end
+  
 end
