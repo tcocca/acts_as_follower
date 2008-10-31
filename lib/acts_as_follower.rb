@@ -46,14 +46,26 @@ module ActiveRecord
           end
         end
         
+        # TODO: Remove from public API.
         # Returns the follow records related to this instance by type.
         def follows_by_type(followable_type)
           Follow.find(:all, :conditions => ["follower_id = ? AND follower_type = ? AND followable_type = ?", self.id, self.class.name, followable_type])
         end
         
+        # TODO: Remove from public API.
         # Returns the follow records related to this instance by type.
         def all_follows
           Follow.find(:all, :conditions => ["follower_id = ? AND follower_type = ?", self.id, self.class.name])
+        end
+        
+        # Returns the actual records which this instance is following.
+        def all_following
+          all_follows.map { |f| f.followable }
+        end
+        
+        # Returns the actual records of a particular type which this record is following.
+        def following_by_type(followable_type)
+          follows_by_type(followable_type).map { |f| f.followable}
         end
         
         private

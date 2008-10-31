@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/test_helper'
 
 class ActsAsFollowerTest < Test::Unit::TestCase
-  fixtures :users, :follows
+  fixtures :users, :follows, :bands
   
   def test_instance_methods_should_be_defined
     assert users(:sam).respond_to?(:following?)
@@ -40,16 +40,30 @@ class ActsAsFollowerTest < Test::Unit::TestCase
     end
   end
   
-  def test_follows_by_type_should_return_only_requested_records
+  def test_follows_by_type_should_return_only_requested_follows
     assert_equal [follows(:band)], users(:sam).follows_by_type('Band')
     assert_equal [follows(:user)], users(:sam).follows_by_type('User')
   end
   
-  def test_all_follows_should_return_all_folows
+  def test_all_follows_should_return_all_follows
     follows = users(:sam).all_follows
     assert_equal 2, follows.size
     assert follows.include?(follows(:band))
     assert follows.include?(follows(:user))
+    assert_equal [], users(:jon).all_follows
+  end
+  
+  def test_all_following_should_return_actual_followed_records    
+    following = users(:sam).all_following
+    assert_equal 2, following.size
+    assert following.include?(bands(:oasis))
+    assert following.include?(users(:jon))
+    assert_equal [], users(:jon).all_following
+  end
+  
+  def test_following_by_type_should_return_only_requested_records
+    assert_equal [bands(:oasis)], users(:sam).following_by_type('Band')
+    assert_equal [users(:jon)], users(:sam).following_by_type('User')
   end
   
 end
