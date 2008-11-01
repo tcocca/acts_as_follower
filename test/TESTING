@@ -1,0 +1,46 @@
+Testing
+==============
+
+Tests are written with the standard Rails setup of Test::Unit and run using rake.
+
+
+Setup
+=======
+
+Create a new Rails app, and add acts_as_follower as a plugin.
+
+By default the tests database uses in-memory sqlite. This requires the appropriate library:
+
+sudo gem install sqlite3-ruby
+
+If you wish to use mysql instead, create a database as specified in test/database.yml.
+
+
+Running
+=======
+
+From the command line, within the acts_as_follower directory:
+
+rake test   # For sqlite
+
+or:
+
+DB=mysql rake test    # For mysql
+
+
+Coverage
+=======
+
+Test coverage can be calculated using Rcov. Make sure you have the rcov gem installed.
+
+Again in the acts_as_follower directory:
+
+rake rcov:gen   # For sqlite
+
+or:
+
+DB=mysql rake rcov:gen   # For mysql
+
+The coverage will now be available in the test/coverage directory.
+
+rake rcov:clobber will delete the coverage directory.
