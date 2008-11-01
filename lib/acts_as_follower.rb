@@ -1,5 +1,5 @@
-module ActiveRecord
-  module Acts
+module ActiveRecord #:nodoc:
+  module Acts #:nodoc:
     module Follower
       
       def self.included(base)
