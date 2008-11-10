@@ -20,13 +20,13 @@ module ActiveRecord
         def following?(followable)
           0 < Follow.count(:all, :conditions => [
                 "follower_id = ? AND follower_type = ? AND followable_id = ? AND followable_type = ?",
-                 self.id, self.class.name, followable.id, followable.class.name
+                 self.id, parent_class_name(self), followable.id, parent_class_name(followable)
                ])
         end
         
         # Returns the number of objects this instance is following.
         def follow_count
-          Follow.count(:all, :conditions => ["follower_id = ? AND follower_type = ?", self.id, self.class.name])
+          Follow.count(:all, :conditions => ["follower_id = ? AND follower_type = ?", self.id, parent_class_name(self)])
         end
         
         # Creates a new follow record for this instance to follow the passed object.
@@ -49,13 +49,13 @@ module ActiveRecord
         # TODO: Remove from public API.
         # Returns the follow records related to this instance by type.
         def follows_by_type(followable_type)
-          Follow.find(:all, :conditions => ["follower_id = ? AND follower_type = ? AND followable_type = ?", self.id, self.class.name, followable_type])
+          Follow.find(:all, :conditions => ["follower_id = ? AND follower_type = ? AND followable_type = ?", self.id, parent_class_name(self), followable_type])
         end
         
         # TODO: Remove from public API.
         # Returns the follow records related to this instance by type.
         def all_follows
-          Follow.find(:all, :conditions => ["follower_id = ? AND follower_type = ?", self.id, self.class.name])
+          Follow.find(:all, :conditions => ["follower_id = ? AND follower_type = ?", self.id, parent_class_name(self)])
         end
         
         # Returns the actual records which this instance is following.
@@ -72,7 +72,7 @@ module ActiveRecord
         # e.g. following_users == following_by_type('User')
         def method_missing(m, *args)
           if m.to_s[/following_(.+)/]
-            following_by_type($1.classify)
+            following_by_type(parent_class_name($1).classify)
           else
             super
           end
@@ -82,9 +82,18 @@ module ActiveRecord
         
         # Returns a follow record for the current instance and followable object.
         def get_follow(followable)
-          Follow.find(:first, :conditions => ["follower_id = ? AND follower_type = ? AND followable_id = ? AND followable_type = ?", self.id, self.class.name, followable.id, followable.class.name])
+          Follow.find(:first, :conditions => ["follower_id = ? AND follower_type = ? AND followable_id = ? AND followable_type = ?", self.id, parent_class_name(self), followable.id, parent_class_name(followable)])
         end
-        
+
+        # Retrieves the parent class name if using STI.
+        def parent_class_name(obj)
+          if obj.class.superclass != ActiveRecord::Base
+            return obj.class.superclass.name
+          end
+
+          return obj.class.name
+        end
+
       end
       
     end
