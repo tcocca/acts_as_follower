@@ -55,7 +55,7 @@ module ActiveRecord
         # TODO: Remove from public API.
         # Returns the follow records related to this instance by type.
         def all_follows
-          Follow.find(:all, :conditions => ["follower_id = ? AND follower_type = ?", self.id, parent_class_name(self)])
+          Follow.find(:all, :include => [:followable], :conditions => ["follower_id = ? AND follower_type = ?", self.id, parent_class_name(self)])
         end
         
         # Returns the actual records which this instance is following.
