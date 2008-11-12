@@ -59,11 +59,11 @@ ActsAsFollower Methods
 
 - To get all of the records that a Model is following use the following on a model that acts_as_follower
 
-		current_user.all_follows # Returns an array of every follow for the current_user
+		current_user.all_following # Returns an array of every followed object for the current user.
 		
-- To get all follows by a certain type use the following on a model that acts_as_follower
+- To get all followed objects by a certain type use the following on a model that acts_as_follower. It should be noted that this method is considerably faster than the above one.
 
-		current_user.follows_by_type('Book') # Returns an array of all follows for current user where followable_type is 'Book'
+		current_user.following_by_type('Book') # Returns an array of all followed objects for current user where followable_type is 'Book'
 		
 - To get the total number (count) of follows for a user use the following on a model that acts_as_follower
 
@@ -103,7 +103,6 @@ Thank you Pete!
 TODO
 =======
 
-* Testing
 * Add Example Usage code to the plugin
 * Possibly add hooks for model observer code or after_save or after_update code
 	- Any ideas on this are more than welcome, just email me.
