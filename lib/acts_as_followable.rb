@@ -24,14 +24,15 @@ module ActiveRecord #:nodoc:
         
         # Returns the following records.
         def followers
-          self.follows.collect{ |f| f.follower }
+          Follow.find(:all, :include => [:follower], :conditions => ["followable_id = ? AND followable_type = ?", 
+              self.id, parent_class_name(self)]).collect {|f| f.follower }
         end
         
         # Returns true if the current instance is followed by the passed record.
         def followed_by?(follwer)
           rtn = false
           self.follows.each do |f|
-            rtn = true if follwer.id == f.follower_id && follwer.class.name == f.follower_type 
+            rtn = true if follwer.id == f.follower_id && parent_class_name(follwer) == f.follower_type 
           end
           rtn
         end
