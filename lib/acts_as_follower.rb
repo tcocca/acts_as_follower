@@ -73,7 +73,8 @@ module ActiveRecord #:nodoc:
         # e.g. following_users == following_by_type('User')
         def method_missing(m, *args)
           if m.to_s[/following_(.+)/]
-            following_by_type(parent_class_name($1).classify)
+            #following_by_type(parent_class_name($1).classify)
+            following_by_type($1.singularize.classify)
           else
             super
           end

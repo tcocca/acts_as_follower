@@ -9,7 +9,8 @@ Setup
 
 Create a new Rails app, and add acts_as_follower as a plugin.
 
-By default the tests database uses in-memory sqlite. This requires the appropriate library:
+By default the tests database uses mysql. 
+You can make the test database uses in-memory sqlite. This requires the appropriate library:
 
 sudo gem install sqlite3-ruby
 
@@ -21,11 +22,11 @@ Running
 
 From the command line, within the acts_as_follower directory:
 
-rake test   # For sqlite
+rake test   # For mysql
 
 or:
 
-DB=mysql rake test    # For mysql
+DB=sqlite rake test    # For sqlite
 
 
 Coverage
