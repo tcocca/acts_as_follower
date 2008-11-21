@@ -1,32 +1,32 @@
 Testing
 ==============
 
-Tests are written with the standard Rails setup of Test::Unit and run using rake.
+Tests are written with the standard Rails setup of Test::Unit and run using rake. Test can either be run against a MySQL database or the faster in-memory SQLite3.
 
 
-Setup
+MySQL
 =======
 
-Create a new Rails app, and add acts_as_follower as a plugin.
-
-By default the tests database uses mysql. 
-You can make the test database uses in-memory sqlite. This requires the appropriate library:
-
-sudo gem install sqlite3-ruby
-
-If you wish to use mysql instead, create a database as specified in test/database.yml.
-
-
-Running
+1. Create a new Rails app.
+2. Install acts_as_follower as a plugin.
+3. Copy the database config within the plugin:
+    cp test/database.yml.example test/database.yml
+4. Create a database as specified in test/database.yml.
+5. Run the tests:
+    rake test
+    
+    
+SQLite3
 =======
 
-From the command line, within the acts_as_follower directory:
-
-rake test   # For mysql
-
-or:
-
-DB=sqlite rake test    # For sqlite
+1. Create a new Rails app.
+2. Install acts_as_follower as a plugin.
+3. Copy the database config within the plugin:
+    cp test/database.yml.example test/database.yml
+4. Install the sqlite3 library (if you don't have it already):
+    sudo gem install sqlite3-ruby
+5. Run the tests:
+    DB=sqlite3 rake test
 
 
 Coverage

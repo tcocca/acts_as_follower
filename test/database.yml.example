@@ -7,4 +7,4 @@ mysql:
 
 sqlite3:
   adapter: sqlite3
-  database: 'memory'
+  database: ':memory:'
