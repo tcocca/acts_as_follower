@@ -92,10 +92,16 @@ Comments
 If anyone has comments or questions please let me know (tom dot cocca at gmail dot com)
 If you have updates or patches or want to contribute I would love to see what you have or want to add
 
-Props go out to Pete Jackson on his VoteFu plugin which is what I took the majority of the design pattern for this plugin from:
+
+Props
+=======
+Thank you to Dougal and JDG for their interest and time in commiting to making this plugin better.
+Also, make sure to check out Dougal's blog about the plugin here: http://douglasfshearer.com/blog/rails-plugin-acts-as-follower
+
+ALso, props go out to Pete Jackson on his VoteFu plugin which is what I took the majority of the design pattern for this plugin from:
 See Pete's plugin here: http://github.com/peteonrails/vote_fu/tree/master
 
-Also Pete based his plugin off of acts_as_voteable and acts_as_commentable so I should give props there as well.
+Pete based his plugin off of acts_as_voteable and acts_as_commentable so I should give props there as well.
 
 Thank you Pete!
 
