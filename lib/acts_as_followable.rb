@@ -8,7 +8,7 @@ module ActiveRecord #:nodoc:
       
       module ClassMethods
         def acts_as_followable
-          has_many :follows, :as => :followable, :dependent => :nullify
+          has_many :follows, :as => :followable, :dependent => :destroy
           include ActiveRecord::Acts::Followable::InstanceMethods
         end
       end

@@ -75,4 +75,10 @@ class ActsAsFollowerTest < Test::Unit::TestCase
     assert_raises (NoMethodError){ users(:sam).foobar }
   end
   
+  def test_destroyed_follower_should_nullifys_related_follows_records
+    assert_difference "Follow.count && users(:sam).following_users.size", -1 do
+      users(:jon).destroy
+    end
+  end
+  
 end

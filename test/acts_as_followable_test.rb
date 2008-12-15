@@ -24,4 +24,10 @@ class ActsAsFollowableTest < Test::Unit::TestCase
     assert_equal false, users(:sam).followed_by?(users(:jon))
   end
   
+  def test_destroyed_followable_should_destroy_related_follows_records
+    assert_difference "Follow.count && users(:sam).all_following.size", -1 do
+      users(:jon).destroy
+    end
+  end
+  
 end
