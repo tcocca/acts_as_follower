@@ -29,14 +29,18 @@ module ActiveRecord #:nodoc:
         end
         
         # Returns true if the current instance is followed by the passed record.
-        def followed_by?(follwer)
-          rtn = false
-          self.follows.each do |f|
-            rtn = true if follwer.id == f.follower_id && parent_class_name(follwer) == f.follower_type 
-          end
-          rtn
+        def followed_by?(follower)
+          self.follows.find(:first, :conditions => ["follower_id = ? AND follower_type = ?", follower.id, parent_class_name(follower)]) ? true : false
         end
         
+        # Retrieves the parent class name if using STI.
+        def parent_class_name(obj)
+          if obj.class.superclass != ActiveRecord::Base
+            return obj.class.superclass.name
+          end
+
+          return obj.class.name
+        end
       end
       
     end
