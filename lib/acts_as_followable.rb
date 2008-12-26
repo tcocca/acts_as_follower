@@ -30,7 +30,7 @@ module ActiveRecord #:nodoc:
         
         # Returns true if the current instance is followed by the passed record.
         def followed_by?(follower)
-          self.follows.find(:first, :conditions => ["follower_id = ? AND follower_type = ?", follower.id, parent_class_name(follower)]) ? true : false
+          follower.follows.find(:first, :conditions => ["followable_id = ? AND followable_type = ?", self.id, parent_class_name(self)]) ? true : false
         end
         
         # Retrieves the parent class name if using STI.
