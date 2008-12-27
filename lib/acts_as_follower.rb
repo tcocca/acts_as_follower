@@ -65,8 +65,9 @@ module ActiveRecord #:nodoc:
         
         # Returns the actual records of a particular type which this record is following.
         def following_by_type(followable_type)
-          klass = eval(followable_type) # be careful with this.
-          klass.find(:all, :joins => :follows, :conditions => ['follower_id = ? AND follower_type = ?', self.id, self.class.name])
+          #klass = eval(followable_type) # be careful with this.
+          #klass.find(:all, :joins => :follows, :conditions => ['follower_id = ? AND follower_type = ?', self.id, parent_class_name(self)])
+          follows_by_type(followable_type).map { |f| f.followable }
         end
         
         # Allows magic names on following_by_type
