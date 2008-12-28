@@ -13,7 +13,7 @@ module ActiveRecord #:nodoc:
       
       module ClassMethods
         def acts_as_follower
-          has_many :follows, :as => :follower, :dependent => :nullify  # If a following entity is deleted, keep the follows. 
+          has_many :follows, :as => :follower, :dependent => :destroy
           include ActiveRecord::Acts::Follower::InstanceMethods
         end
       end
