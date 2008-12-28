@@ -1,9 +1,14 @@
+require File.dirname(__FILE__) + '/follower_lib'
+
 module ActiveRecord #:nodoc:
   module Acts #:nodoc:
     module Follower
       
       def self.included(base)
         base.extend ClassMethods
+        base.class_eval do
+          include FollowerLib
+        end
       end
       
       module ClassMethods
@@ -86,15 +91,6 @@ module ActiveRecord #:nodoc:
         # Returns a follow record for the current instance and followable object.
         def get_follow(followable)
           Follow.find(:first, :conditions => ["follower_id = ? AND follower_type = ? AND followable_id = ? AND followable_type = ?", self.id, parent_class_name(self), followable.id, parent_class_name(followable)])
-        end
-
-        # Retrieves the parent class name if using STI.
-        def parent_class_name(obj)
-          if obj.class.superclass != ActiveRecord::Base
-            return obj.class.superclass.name
-          end
-
-          return obj.class.name
         end
 
       end
