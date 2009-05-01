@@ -19,7 +19,6 @@ module ActiveRecord #:nodoc:
       end
 
       
-      # This module contains instance methods
       module InstanceMethods
         
         # Returns the number of followers a record has.
