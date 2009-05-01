@@ -1,83 +1,126 @@
 require File.dirname(__FILE__) + '/test_helper'
 
 class ActsAsFollowerTest < Test::Unit::TestCase
-  fixtures :users, :follows, :bands
   
-  def test_instance_methods_should_be_defined
-    assert users(:sam).respond_to?(:following?)
-    assert users(:sam).respond_to?(:follow_count)
-    assert users(:sam).respond_to?(:follow)
-    assert users(:sam).respond_to?(:stop_following)
-    assert users(:sam).respond_to?(:follows_by_type)
-    assert users(:sam).respond_to?(:all_follows)
-  end
-  
-  def test_following_should_returns_following_status
-    assert_equal true, users(:sam).following?(users(:jon))
-    assert_equal false, users(:jon).following?(users(:sam))
-  end
-  
-  def test_follow_count_should_return_count_of_followed_users
-    assert_equal 2, users(:sam).follow_count
-    assert_equal 0, users(:jon).follow_count
-  end
-  
-  def test_follow_should_create_relevant_follow_record
-    assert_difference "Follow.count", 1 do
-      assert_difference "users(:jon).follow_count", 1 do
-        users(:jon).follow(users(:sam))
-      end    
+  context "instance methods" do
+    setup do
+      @sam = Factory(:sam)
     end
-    assert_equal users(:jon), Follow.last.follower
-    assert_equal users(:sam), Follow.last.followable
-  end
-  
-  def test_stop_following_should_create_relevant_follow_record
-    assert_difference "Follow.count", -1 do
-      assert_difference "users(:sam).follow_count", -1 do
-        users(:sam).stop_following(users(:jon))
-      end    
+    
+    should "be defined" do
+      assert @sam.respond_to?(:following?)
+      assert @sam.respond_to?(:follow_count)
+      assert @sam.respond_to?(:follow)
+      assert @sam.respond_to?(:stop_following)
+      assert @sam.respond_to?(:follows_by_type)
+      assert @sam.respond_to?(:all_follows)
     end
   end
   
-  def test_follows_by_type_should_return_only_requested_follows
-    assert_equal [follows(:band)], users(:sam).follows_by_type('Band')
-    assert_equal [follows(:user)], users(:sam).follows_by_type('User')
-  end
-  
-  def test_all_follows_should_return_all_follows
-    follows = users(:sam).all_follows
-    assert_equal 2, follows.size
-    assert follows.include?(follows(:band))
-    assert follows.include?(follows(:user))
-    assert_equal [], users(:jon).all_follows
-  end
-  
-  def test_all_following_should_return_actual_followed_records    
-    following = users(:sam).all_following
-    assert_equal 2, following.size
-    assert following.include?(bands(:oasis))
-    assert following.include?(users(:jon))
-    assert_equal [], users(:jon).all_following
-  end
-  
-  def test_following_by_type_should_return_only_requested_records
-    assert_equal [bands(:oasis)], users(:sam).following_by_type('Band')
-    assert_equal [users(:jon)], users(:sam).following_by_type('User')
-  end
-  
-  def test_method_missing_should_call_following_by_type
-    assert_equal [bands(:oasis)], users(:sam).following_bands
-    assert_equal [users(:jon)], users(:sam).following_users
-  end
-  
-  def test_method_missing_should_raise
-    assert_raises (NoMethodError){ users(:sam).foobar }
-  end
-  
-  def test_destroyed_follower_should_nullifys_related_follows_records
-    assert_difference "Follow.count && users(:sam).following_users.size", -1 do
-      users(:jon).destroy
+  context "acts_as_follower" do
+    setup do
+      @sam = Factory(:sam)
+      @jon = Factory(:jon)
+      @oasis = Factory(:oasis)
+      @sam.follow(@jon)
+      @sam.follow(@oasis)
+    end
+    
+    context "following" do
+      should "return following_status" do
+        assert_equal true, @sam.following?(@jon)
+        assert_equal false, @jon.following?(@sam)
+      end
+      
+      should "return follow_count" do
+        assert_equal 2, @sam.follow_count
+        assert_equal 0, @jon.follow_count
+      end
+    end
+    
+    context "follow" do
+      setup do
+        @jon.follow(@sam)
+      end
+      
+      should_change "Follow.count", :by => 1
+      should_change "@jon.follow_count", :by => 1
+      
+      should "set the follower" do
+        assert_equal @jon, Follow.last.follower
+      end
+      
+      should "set the followable" do
+        assert_equal @sam, Follow.last.followable
+      end
+    end
+    
+    context "stop_following" do
+      setup do
+        @sam.stop_following(@jon)
+      end
+      
+      should_change "Follow.count", :by => -1
+      should_change "@sam.follow_count", :by => -1
+    end
+    
+    context "follows" do
+      setup do
+        @band_follow = Follow.find(:first, :conditions => ["follower_id = ? and follower_type = 'User' and followable_id = ? and followable_type = 'Band'", @sam.id, @oasis.id])
+        @user_follow = Follow.find(:first, :conditions => ["follower_id = ? and follower_type = 'User' and followable_id = ? and followable_type = 'User'", @sam.id, @jon.id])
+      end
+      
+      context "follows_by_type" do
+        should "only return requested follows" do
+          assert_equal [@band_follow], @sam.follows_by_type('Band')
+          assert_equal [@user_follow], @sam.follows_by_type('User')
+        end
+      end
+      
+      context "all_follows" do
+        should "return all follows" do
+          assert_equal 2, @sam.all_follows.size
+          assert @sam.all_follows.include?(@band_follow)
+          assert @sam.all_follows.include?(@user_follow)
+          assert_equal [], @jon.all_follows
+        end
+      end
+    end
+    
+    context "all_following" do
+      should "return the actual follow records" do
+        assert_equal 2, @sam.all_following.size
+        assert @sam.all_following.include?(@oasis)
+        assert @sam.all_following.include?(@jon)
+        assert_equal [], @jon.all_following
+      end
+    end
+    
+    context "following_by_type" do
+      should "return only requested records" do
+        assert_equal [@oasis], @sam.following_by_type('Band')
+        assert_equal [@jon], @sam.following_by_type('User')
+      end
+    end
+    
+    context "method_missing" do
+      should "call following_by_type" do
+        assert_equal [@oasis], @sam.following_bands
+        assert_equal [@jon], @sam.following_users
+      end
+      
+      should "raise on no method" do
+        assert_raises (NoMethodError){ @sam.foobar }
+      end
+    end
+    
+    context "destroying follower" do
+      setup do
+        @jon.destroy
+      end
+      
+      should_change "Follow.count", :by => -1
+      should_change "@sam.follow_count", :by => -1
     end
   end
   

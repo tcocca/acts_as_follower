@@ -2,3 +2,4 @@ test/debug.log
 coverage
 rdoc
 test/database.yml
+memory
