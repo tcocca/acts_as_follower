@@ -13,7 +13,7 @@ module ActiveRecord #:nodoc:
       
       module ClassMethods
         def acts_as_followable
-          has_many :follows, :as => :followable, :dependent => :destroy
+          has_many :followings, :as => :followable, :dependent => :destroy, :class_name => 'Follow'
           include ActiveRecord::Acts::Followable::InstanceMethods
         end
       end
@@ -23,7 +23,7 @@ module ActiveRecord #:nodoc:
         
         # Returns the number of followers a record has.
         def followers_count
-          self.follows.size
+          self.followings.count
         end
         
         # Returns the following records.

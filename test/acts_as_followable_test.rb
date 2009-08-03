@@ -26,12 +26,34 @@ class ActsAsFollowableTest < Test::Unit::TestCase
         assert_equal 0, @sam.followers_count
         assert_equal 1, @jon.followers_count
       end
+      should "return the proper number of multiple followers" do
+        @bob = Factory(:bob)
+        @sam.follow(@bob)
+        assert_equal 0, @sam.followers_count
+        assert_equal 1, @jon.followers_count
+        assert_equal 1, @bob.followers_count
+      end
     end
     
     context "followers" do
       should "return users" do
         assert_equal [], @sam.followers
         assert_equal [@sam], @jon.followers
+      end
+      should "return users (multiple followers)" do
+        @bob = Factory(:bob)
+        @sam.follow(@bob)
+        assert_equal [], @sam.followers
+        assert_equal [@sam], @jon.followers
+        assert_equal [@sam], @bob.followers
+      end
+      should "return users (multiple followers, complex)" do
+        @bob = Factory(:bob)
+        @sam.follow(@bob)
+        @jon.follow(@bob)
+        assert_equal [], @sam.followers
+        assert_equal [@sam], @jon.followers
+        assert_equal [@sam, @jon], @bob.followers
       end
     end
     
