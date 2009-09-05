@@ -50,28 +50,24 @@ module ActiveRecord #:nodoc:
           end
         end
         
-        # TODO: Remove from public API.
         # Returns the follow records related to this instance by type.
         def follows_by_type(followable_type)
-          Follow.find(:all, :conditions => ["follower_id = ? AND follower_type = ? AND followable_type = ?", self.id, parent_class_name(self), followable_type])
+          Follow.find(:all, :include => [:followable], :conditions => ["follower_id = ? AND follower_type = ? AND followable_type = ?", self.id, parent_class_name(self), followable_type])
         end
         
-        # TODO: Remove from public API.
-        # Returns the follow records related to this instance by type.
+        # Returns the follow records related to this instance with the followable included.
         def all_follows
           self.follows.all(:include => :followable)
-          # Follow.find(:all, :include => [:followable], :conditions => ["follower_id = ? AND follower_type = ?", self.id, parent_class_name(self)])
         end
         
         # Returns the actual records which this instance is following.
         def all_following
-          # all_follows.map { |f| f.followable }
-          self.follows.all(:include => [:followable]).collect{ |f| f.followable }
+          all_follows.collect{ |f| f.followable }
         end
         
         # Returns the actual records of a particular type which this record is following.
         def following_by_type(followable_type)
-          follows_by_type(followable_type).map { |f| f.followable }
+          follows_by_type(followable_type).collect{ |f| f.followable }
         end
         
         # Allows magic names on following_by_type

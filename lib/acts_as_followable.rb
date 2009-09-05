@@ -28,8 +28,6 @@ module ActiveRecord #:nodoc:
         
         # Returns the following records.
         def followers
-          # Follow.find(:all, :include => [:follower], :conditions => ["followable_id = ? AND followable_type = ?", 
-          #     self.id, parent_class_name(self)]).collect {|f| f.follower }
           self.followings.all(:include => [:follower]).collect {|f| f.follower }
         end
         
