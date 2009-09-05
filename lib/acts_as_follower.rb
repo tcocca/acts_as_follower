@@ -59,13 +59,14 @@ module ActiveRecord #:nodoc:
         # TODO: Remove from public API.
         # Returns the follow records related to this instance by type.
         def all_follows
-          self.follows.all
+          self.follows.all(:include => :followable)
           # Follow.find(:all, :include => [:followable], :conditions => ["follower_id = ? AND follower_type = ?", self.id, parent_class_name(self)])
         end
         
         # Returns the actual records which this instance is following.
         def all_following
-          all_follows.map { |f| f.followable }
+          # all_follows.map { |f| f.followable }
+          self.follows.all(:include => [:followable]).collect{ |f| f.followable }
         end
         
         # Returns the actual records of a particular type which this record is following.
