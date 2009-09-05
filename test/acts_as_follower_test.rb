@@ -43,8 +43,8 @@ class ActsAsFollowerTest < Test::Unit::TestCase
         @jon.follow(@sam)
       end
       
-      should_change "Follow.count", :by => 1
-      should_change "@jon.follow_count", :by => 1
+      should_change("Follow count", :by => 1) { Follow.count }
+      should_change("@jon.follow_count", :by => 1) { @jon.follow_count }
       
       should "set the follower" do
         assert_equal @jon, Follow.last.follower
@@ -60,8 +60,8 @@ class ActsAsFollowerTest < Test::Unit::TestCase
         @sam.stop_following(@jon)
       end
       
-      should_change "Follow.count", :by => -1
-      should_change "@sam.follow_count", :by => -1
+      should_change("Follow count", :by => -1) { Follow.count }
+      should_change("@sam.follow_count", :by => -1) { @sam.follow_count }
     end
     
     context "follows" do
@@ -119,8 +119,8 @@ class ActsAsFollowerTest < Test::Unit::TestCase
         @jon.destroy
       end
       
-      should_change "Follow.count", :by => -1
-      should_change "@sam.follow_count", :by => -1
+      should_change("Follow.count", :by => -1) { Follow.count }
+      should_change("@sam.follow_count", :by => -1) { @sam.follow_count }
     end
   end
   

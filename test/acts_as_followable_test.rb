@@ -69,8 +69,8 @@ class ActsAsFollowableTest < Test::Unit::TestCase
         @jon.destroy
       end
       
-      should_change "Follow.count", :by => -1
-      should_change "@sam.all_following.size", :by => -1
+      should_change("follow count", :by => -1) { Follow.count }
+      should_change("@sam.all_following.size", :by => -1) { @sam.all_following.size }
     end
   end
   
