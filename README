@@ -85,6 +85,19 @@ ActsAsFollower Methods
 
 		book.followed_by?(current_user) # Returns true or false depending on if current_user is following book
 
+- To block a follower call the following
+        
+        book.block(current_user)  
+  
+    # Blocks the current user from appearing in the followers list, and blocks the book from appearing in the current_user.all_follows or current_user.all_following lists
+
+- To unblock is just as simple
+        
+        book.unblock(current_user)
+    
+    # Unblocking deletes all records of that follow, instead of just the :blocked attribute => false the follow is deleted.  So, current_user would need to try and follow the book again
+    # I would like to hear thoughts on this, I may change this to make the follow as :blocked => false instead of deleting the record
+
 
 Comments
 =======
@@ -98,19 +111,24 @@ Props
 Thank you to Dougal and JDG for their interest and time in commiting to making this plugin better.
 Also, make sure to check out Dougal's blog about the plugin here: http://douglasfshearer.com/blog/rails-plugin-acts-as-follower
 
-ALso, props go out to Pete Jackson on his VoteFu plugin which is what I took the majority of the design pattern for this plugin from:
+Also, props go out to Pete Jackson on his VoteFu plugin which is what I took the majority of the design pattern for this plugin from:
 See Pete's plugin here: http://github.com/peteonrails/vote_fu/tree/master
 
 Pete based his plugin off of acts_as_voteable and acts_as_commentable so I should give props there as well.
 
 Thank you Pete!
 
+Thank you to  jhchabran (Jean Hadrien Chabran) - http://github.com/jhchabran and TomK32 (Thomas R. Koll) http://github.com/TomK32
+for their commits to the block/unblock problem, I took a sampling of their strategies and combined them.  Thanks guys.
+
 
 TODO
 =======
 
 * Add Example Usage code to the plugin
-* Possibly add hooks for model observer code or after_save or after_update code
-	- Any ideas on this are more than welcome, just email me.
+* Instead of adding hooks for observers and AR callbacks, I am going to convert the plugin to create the Follow model in the 
+    RAILS_ROOT/app/models folder with the generator.  No use having a ton of code when a simple generator does the trick.
+
+* Let me know if there is something else you would like to see.
 
 Copyright (c) 2008 Tom Cocca ( tom dot cocca at gmail dot com ), released under the MIT license
