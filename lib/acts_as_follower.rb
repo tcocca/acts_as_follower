@@ -22,7 +22,7 @@ module ActiveRecord #:nodoc:
         
         # Returns true if this instance is following the object passed as an argument.
         def following?(followable)
-          0 < Follow.count(:all, :conditions => [
+          0 < Follow.unblocked.count(:all, :conditions => [
                 "follower_id = ? AND follower_type = ? AND followable_id = ? AND followable_type = ?",
                  self.id, parent_class_name(self), followable.id, parent_class_name(followable)
                ])
@@ -30,7 +30,7 @@ module ActiveRecord #:nodoc:
         
         # Returns the number of objects this instance is following.
         def follow_count
-          Follow.count(:all, :conditions => ["follower_id = ? AND follower_type = ?", self.id, parent_class_name(self)])
+          Follow.unblocked.count(:all, :conditions => ["follower_id = ? AND follower_type = ?", self.id, parent_class_name(self)])
         end
         
         # Creates a new follow record for this instance to follow the passed object.
@@ -52,12 +52,12 @@ module ActiveRecord #:nodoc:
         
         # Returns the follow records related to this instance by type.
         def follows_by_type(followable_type)
-          Follow.find(:all, :include => [:followable], :conditions => ["follower_id = ? AND follower_type = ? AND followable_type = ?", self.id, parent_class_name(self), followable_type])
+          Follow.unblocked.find(:all, :include => [:followable], :conditions => ["follower_id = ? AND follower_type = ? AND followable_type = ?", self.id, parent_class_name(self), followable_type])
         end
         
         # Returns the follow records related to this instance with the followable included.
         def all_follows
-          self.follows.all(:include => :followable)
+          self.follows.unblocked.all(:include => :followable)
         end
         
         # Returns the actual records which this instance is following.
@@ -84,7 +84,7 @@ module ActiveRecord #:nodoc:
         
         # Returns a follow record for the current instance and followable object.
         def get_follow(followable)
-          Follow.find(:first, :conditions => ["follower_id = ? AND follower_type = ? AND followable_id = ? AND followable_type = ?", self.id, parent_class_name(self), followable.id, parent_class_name(followable)])
+          Follow.unblocked.find(:first, :conditions => ["follower_id = ? AND follower_type = ? AND followable_id = ? AND followable_type = ?", self.id, parent_class_name(self), followable.id, parent_class_name(followable)])
         end
         
       end

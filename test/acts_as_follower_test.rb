@@ -122,6 +122,29 @@ class ActsAsFollowerTest < Test::Unit::TestCase
       should_change("Follow.count", :by => -1) { Follow.count }
       should_change("@sam.follow_count", :by => -1) { @sam.follow_count }
     end
+    
+    context "blocked by followable" do
+      setup do
+        @jon.block(@sam)
+      end
+      
+      should "return following_status" do
+        assert_equal false, @sam.following?(@jon)
+      end
+      
+      should "return follow_count" do
+        assert_equal 1, @sam.follow_count
+      end
+      
+      should "not return record of the blocked follows" do
+        assert_equal 1, @sam.all_follows.size
+        assert !@sam.all_follows.include?(@user_follow)
+        assert !@sam.all_following.include?(@jon)
+        assert_equal [], @sam.following_by_type('User')
+        assert_equal [], @sam.follows_by_type('User')
+        assert_equal [], @sam.following_users
+      end
+    end
   end
   
 end

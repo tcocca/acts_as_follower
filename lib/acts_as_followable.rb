@@ -23,17 +23,49 @@ module ActiveRecord #:nodoc:
         
         # Returns the number of followers a record has.
         def followers_count
-          self.followings.count
+          self.followings.unblocked.count
+        end
+        
+        def blocked_followers_count
+          self.followings.blocked.count
         end
         
         # Returns the following records.
         def followers
-          self.followings.all(:include => [:follower]).collect {|f| f.follower }
+          self.followings.unblocked.all(:include => [:follower]).collect{|f| f.follower}
         end
         
-        # Returns true if the current instance is followed by the passed record.
+        def blocks
+          self.followings.blocked.all(:include => [:follower]).collect{|f| f.follower}
+        end
+        
+        # Returns true if the current instance is followed by the passed record
+        # Returns false if the current instance is blocked by the passed record or no follow is found
         def followed_by?(follower)
-          Follow.find(:first, :conditions => ["followable_id = ? AND followable_type = ? AND follower_id = ? AND follower_type = ?", self.id, parent_class_name(self), follower.id, parent_class_name(follower)]) ? true : false
+          f = get_follow_for(follower)
+          (f && !f.blocked?) ? true : false
+        end
+        
+        def block(follower)
+          get_follow_for(follower) ? block_existing_follow(follower) : block_future_follow(follower)
+        end
+        
+        def unblock(follower)
+          get_follow_for(follower).try(:delete)
+        end
+        
+        private
+        
+        def get_follow_for(follower)
+          Follow.find(:first, :conditions => ["followable_id = ? AND followable_type = ? AND follower_id = ? AND follower_type = ?", self.id, parent_class_name(self), follower.id, parent_class_name(follower)])
+        end
+        
+        def block_future_follow(follower)
+          follows.create(:followable => self, :follower => follower, :blocked => true)
+        end
+        
+        def block_existing_follow(follower)
+          get_follow_for(follower).block!
         end
         
       end
