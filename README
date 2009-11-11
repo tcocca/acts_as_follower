@@ -14,7 +14,9 @@ Install
 	./script/plugin install git://github.com/tcocca/acts_as_follower.git 
 	
 * Create a new rails migration using the generator:
-	./script/generate acts_as_follower_migration
+	./script/generate acts_as_follower
+	
+	This will generate a migration file as well as a model called Follow.
 
 
 Usage & Examples
@@ -126,8 +128,6 @@ TODO
 =======
 
 * Add Example Usage code to the plugin
-* Instead of adding hooks for observers and AR callbacks, I am going to convert the plugin to create the Follow model in the 
-    RAILS_ROOT/app/models folder with the generator.  No use having a ton of code when a simple generator does the trick.
 
 * Let me know if there is something else you would like to see.
 

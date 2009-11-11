@@ -5,6 +5,7 @@ require 'active_record/base'
 require File.dirname(__FILE__) + '/../init.rb'
 require File.dirname(__FILE__) + '/models/band'
 require File.dirname(__FILE__) + '/models/user'
+require File.dirname(__FILE__) + '/../generators/acts_as_follower/templates/model.rb'
 
 require 'test/unit'
 require 'shoulda'
