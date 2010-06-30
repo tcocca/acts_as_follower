@@ -10,7 +10,7 @@ class ActsAsFollowerMigration < ActiveRecord::Migration
     add_index :follows, ["follower_id", "follower_type"],     :name => "fk_follows"
     add_index :follows, ["followable_id", "followable_type"], :name => "fk_followables"
   end
-  
+
   def self.down
     drop_table :follows
   end

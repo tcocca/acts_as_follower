@@ -28,7 +28,7 @@ Make your model(s) that you want to allow to be followed acts_as_followable, jus
     acts_as_followable
     ...
   end
-  
+
   class Book < ActiveRecord::Base
     ...
     acts_as_followable
@@ -64,7 +64,7 @@ To get follow records that have not been blocked use the following
   user.all_follows # returns an array of Follow records
 
 To get all of the records that an object is following that have not been blocked use the following
-  user.all_following 
+  user.all_following
   # Returns an array of every followed object for the user, this can be a collection of different object types, eg: User, Book
 
 To get all Follow records by a certain type use the following
@@ -82,18 +82,18 @@ There is also a method_missing to accomplish the exact same thing a following_by
 
 To get all the followers of a model that acts_as_followable
   book.followers  # Returns an array of all the followers for that book, a collection of different object types (eg. type User or type Book)
-		
+
 To get just the number of follows use
   book.followers_count
-		
+
 To see is a model that acts_as_followable is followed by a model that acts_as_follower use the following
   book.followed_by?(user)
-  
+
   # Returns true if the current instance is followed by the passed record
   # Returns false if the current instance is blocked by the passed record or no follow is found
 
 To block a follower call the following
-  book.block(user)  
+  book.block(user)
   # Blocks the user from appearing in the followers list, and blocks the book from appearing in the user.all_follows or user.all_following lists
 
 To unblock is just as simple
@@ -105,7 +105,7 @@ To get all blocked records
 If you only need the number of blocks use the count method provided
   book.blocked_followers_count
 
-Unblocking deletes all records of that follow, instead of just the :blocked attribute => false the follow is deleted.  So, a user would need to try and follow the book again. 
+Unblocking deletes all records of that follow, instead of just the :blocked attribute => false the follow is deleted.  So, a user would need to try and follow the book again.
 I would like to hear thoughts on this, I may change this to make the follow as :blocked => false instead of deleting the record.
 
 ---
@@ -114,12 +114,12 @@ I would like to hear thoughts on this, I may change this to make the follow as :
 
 The Follow model has a set of named_scope's.  In case you want to interface directly with the Follow model you can use them.
   Follow.unblocked # returns all "unblocked" follow records
-  
+
   Follow.blocked # returns all "blocked" follow records
-  
+
   Follow.descending # returns all records in a descending order based on created_at datetime
 
-This method pulls all records created after a certain date.  The default is 2 weeks but it takes an optional parameter. 
+This method pulls all records created after a certain date.  The default is 2 weeks but it takes an optional parameter.
   Follow.recent
   Follow.recent(4.weeks.ago)
 
@@ -145,7 +145,7 @@ If you have updates or patches or want to contribute I would love to see what yo
 
 
 == Note on Patches/Pull Requests
- 
+
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a future version unintentionally (acts_as_follower uses Shoulda and Factory Girl)

@@ -1,7 +1,7 @@
 module FollowerLib
-  
+
   private
-  
+
   # Retrieves the parent class name if using STI.
   def parent_class_name(obj)
     if obj.class.superclass != ActiveRecord::Base
@@ -9,5 +9,5 @@ module FollowerLib
     end
     return obj.class.name
   end
-  
+
 end

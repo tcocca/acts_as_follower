@@ -1,5 +1,5 @@
 ActiveRecord::Schema.define :version => 0 do
-  
+
   create_table :follows, :force => true do |t|
     t.integer  "followable_id",   :null => false
     t.string   "followable_type", :null => false
@@ -9,13 +9,13 @@ ActiveRecord::Schema.define :version => 0 do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-  
+
   create_table :users, :force => true do |t|
     t.column :name, :string
   end
-  
+
   create_table :bands, :force => true do |t|
     t.column :name, :string
   end
-  
+
 end

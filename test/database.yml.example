@@ -2,7 +2,7 @@ mysql:
   adapter: mysql
   host: localhost
   username: root
-  password: 
+  password:
   database: rails_plugin_test
 
 sqlite3:

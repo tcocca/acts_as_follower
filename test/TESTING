@@ -1,7 +1,7 @@
 Testing
 ==============
 
-Tests are written with Shoulda on top of Test::Unit and Factory Girl is used instead of fixtures.  Tests are run using rake. 
+Tests are written with Shoulda on top of Test::Unit and Factory Girl is used instead of fixtures.  Tests are run using rake.
 Test can either be run against a MySQL database or the faster in-memory SQLite3.
 
 
@@ -15,8 +15,8 @@ MySQL
 4. Create a database as specified in test/database.yml.
 5. Run the tests:
     rake test
-    
-    
+
+
 SQLite3
 =======
 
