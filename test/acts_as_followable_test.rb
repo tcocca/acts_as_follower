@@ -26,6 +26,7 @@ class ActsAsFollowableTest < Test::Unit::TestCase
         assert_equal 0, @sam.followers_count
         assert_equal 1, @jon.followers_count
       end
+
       should "return the proper number of multiple followers" do
         @bob = Factory(:bob)
         @sam.follow(@bob)
@@ -40,6 +41,7 @@ class ActsAsFollowableTest < Test::Unit::TestCase
         assert_equal [], @sam.followers
         assert_equal [@sam], @jon.followers
       end
+
       should "return users (multiple followers)" do
         @bob = Factory(:bob)
         @sam.follow(@bob)
@@ -47,6 +49,7 @@ class ActsAsFollowableTest < Test::Unit::TestCase
         assert_equal [@sam], @jon.followers
         assert_equal [@sam], @bob.followers
       end
+
       should "return users (multiple followers, complex)" do
         @bob = Factory(:bob)
         @sam.follow(@bob)
@@ -54,6 +57,12 @@ class ActsAsFollowableTest < Test::Unit::TestCase
         assert_equal [], @sam.followers
         assert_equal [@sam], @jon.followers
         assert_equal [@sam, @jon], @bob.followers
+      end
+
+      should "accept AR options" do
+        @bob = Factory(:bob)
+        @bob.follow(@jon)
+        assert_equal 1, @jon.followers(:limit => 1).count
       end
     end
 
@@ -71,6 +80,18 @@ class ActsAsFollowableTest < Test::Unit::TestCase
 
       should_change("follow count", :by => -1) { Follow.count }
       should_change("@sam.all_following.size", :by => -1) { @sam.all_following.size }
+    end
+
+    context "blocks" do
+      setup do
+        @bob = Factory(:bob)
+        @jon.block(@sam)
+        @jon.block(@bob)
+      end
+
+      should "accept AR options" do
+        assert_equal 1, @jon.blocks(:limit => 1).count
+      end
     end
 
     context "blocking a follower" do

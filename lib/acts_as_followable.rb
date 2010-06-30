@@ -31,12 +31,18 @@ module ActiveRecord #:nodoc:
         end
 
         # Returns the following records.
-        def followers
-          self.followings.unblocked.all(:include => [:follower]).collect{|f| f.follower}
+        def followers(options={})
+          options = {
+            :include => [:follower]
+          }.merge(options)
+          self.followings.unblocked.all(options).collect{|f| f.follower}
         end
 
-        def blocks
-          self.followings.blocked.all(:include => [:follower]).collect{|f| f.follower}
+        def blocks(options={})
+          options = {
+            :include => [:follower]
+          }.merge(options)
+          self.followings.blocked.all(options).collect{|f| f.follower}
         end
 
         # Returns true if the current instance is followed by the passed record
