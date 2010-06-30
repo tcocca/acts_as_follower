@@ -70,10 +70,16 @@ module ActiveRecord #:nodoc:
           follows_by_type(followable_type).collect{ |f| f.followable }
         end
         
+        def following_by_type_count(followable_type)
+          Follow.unblocked.count(:all, :conditions => ["follower_id = ? AND follower_type = ? AND followable_type = ?", self.id, parent_class_name(self), followable_type])
+        end
+        
         # Allows magic names on following_by_type
         # e.g. following_users == following_by_type('User')
         def method_missing(m, *args)
-          if m.to_s[/following_(.+)/]
+          if m.to_s[/following_(.+)_count/]
+            following_by_type_count($1.singularize.classify)
+          elsif m.to_s[/following_(.+)/]
             following_by_type($1.singularize.classify)
           else
             super
