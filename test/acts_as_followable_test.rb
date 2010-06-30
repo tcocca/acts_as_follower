@@ -74,28 +74,54 @@ class ActsAsFollowableTest < Test::Unit::TestCase
     end
 
     context "blocking a follower" do
-      setup do
-        @jon.block(@sam)
+      context "in my following list" do
+        setup do
+          @jon.block(@sam)
+        end
+
+        should "remove him from followers" do
+          assert_equal 0, @jon.followers_count
+        end
+
+        should "add him to the blocked followers" do
+          assert_equal 1, @jon.blocked_followers_count
+        end
+
+        should "not be able to follow again" do
+          @jon.follow(@sam)
+          assert_equal 0, @jon.followers_count
+        end
+
+        should "not be present when listing followers" do
+          assert_equal [], @jon.followers
+        end
+
+        should "be in the list of blocks" do
+          assert_equal [@sam], @jon.blocks
+        end
       end
 
-      should "remove him from followers" do
-        assert_equal 0, @jon.followers_count
-      end
+      context "not in my following list" do
+        setup do
+          @sam.block(@jon)
+        end
 
-      should "add him to the blocked followers" do
-        assert_equal 1, @jon.blocked_followers_count
-      end
+        should "add him to the blocked followers" do
+          assert_equal 1, @sam.blocked_followers_count
+        end
 
-      should "not be able to follow again" do
-        assert_equal 0, @jon.followers_count
-      end
+        should "not be able to follow again" do
+          @sam.follow(@jon)
+          assert_equal 0, @sam.followers_count
+        end
 
-      should "not be present when listing followers" do
-        assert_equal [], @jon.followers
-      end
+        should "not be present when listing followers" do
+          assert_equal [], @sam.followers
+        end
 
-      should "be in the list of blocks" do
-        assert_equal [@sam], @jon.blocks
+        should "be in the list of blocks" do
+          assert_equal [@jon], @sam.blocks
+        end
       end
     end
 
