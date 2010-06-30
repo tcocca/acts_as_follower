@@ -102,7 +102,9 @@ class ActsAsFollowerTest < Test::Unit::TestCase
 
       context "following_by_type_count" do
         should "return the count of the requested type" do
-          assert_equal 1, @sam.following_by_type_count('Band')
+          @metallica = Factory(:metallica)
+          @sam.follow(@metallica)
+          assert_equal 2, @sam.following_by_type_count('Band')
           assert_equal 1, @sam.following_by_type_count('User')
           assert_equal 0, @jon.following_by_type_count('Band')
           @jon.block(@sam)
@@ -157,7 +159,9 @@ class ActsAsFollowerTest < Test::Unit::TestCase
       end
 
       should "call following_by_type_count" do
-        assert_equal 1, @sam.following_bands_count
+        @metallica = Factory(:metallica)
+        @sam.follow(@metallica)
+        assert_equal 2, @sam.following_bands_count
         assert_equal 1, @sam.following_users_count
         assert_equal 0, @jon.following_bands_count
         @jon.block(@sam)
