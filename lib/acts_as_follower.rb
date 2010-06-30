@@ -53,23 +53,32 @@ module ActiveRecord #:nodoc:
         end
 
         # Returns the follow records related to this instance by type.
-        def follows_by_type(followable_type)
-          Follow.unblocked.find(:all, :include => [:followable], :conditions => ["follower_id = ? AND follower_type = ? AND followable_type = ?", self.id, parent_class_name(self), followable_type])
+        def follows_by_type(followable_type, options={})
+          options = {
+            :include => [:followable],
+            :conditions => ["follower_id = ? AND follower_type = ? AND followable_type = ?", self.id, parent_class_name(self), followable_type]
+          }.merge(options)
+
+          Follow.unblocked.find(:all, options)
         end
 
         # Returns the follow records related to this instance with the followable included.
-        def all_follows
-          self.follows.unblocked.all(:include => :followable)
+        def all_follows(options={})
+          options = {
+            :include => :followable
+          }.merge(options)
+
+          self.follows.unblocked.all(options)
         end
 
         # Returns the actual records which this instance is following.
-        def all_following
-          all_follows.collect{ |f| f.followable }
+        def all_following(options={})
+          all_follows(options).collect{ |f| f.followable }
         end
 
         # Returns the actual records of a particular type which this record is following.
-        def following_by_type(followable_type)
-          follows_by_type(followable_type).collect{ |f| f.followable }
+        def following_by_type(followable_type, options={})
+          follows_by_type(followable_type, options).collect{ |f| f.followable }
         end
 
         # Allows magic names on following_by_type

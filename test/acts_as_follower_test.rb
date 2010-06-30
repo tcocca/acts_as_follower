@@ -92,6 +92,12 @@ class ActsAsFollowerTest < Test::Unit::TestCase
           assert_equal [@band_follow], @sam.follows_by_type('Band')
           assert_equal [@user_follow], @sam.follows_by_type('User')
         end
+
+        should "accept AR options" do
+          @metallica = Factory(:metallica)
+          @sam.follow(@metallica)
+          assert_equal 1, @sam.follows_by_type('Band', :limit => 1).count
+        end
       end
 
       context "all_follows" do
@@ -100,6 +106,10 @@ class ActsAsFollowerTest < Test::Unit::TestCase
           assert @sam.all_follows.include?(@band_follow)
           assert @sam.all_follows.include?(@user_follow)
           assert_equal [], @jon.all_follows
+        end
+
+        should "accept AR options" do
+          assert_equal 1, @sam.all_follows(:limit => 1).count
         end
       end
     end
@@ -111,12 +121,22 @@ class ActsAsFollowerTest < Test::Unit::TestCase
         assert @sam.all_following.include?(@jon)
         assert_equal [], @jon.all_following
       end
+
+      should "accept AR options" do
+        assert_equal 1, @sam.all_following(:limit => 1).count
+      end
     end
 
     context "following_by_type" do
       should "return only requested records" do
         assert_equal [@oasis], @sam.following_by_type('Band')
         assert_equal [@jon], @sam.following_by_type('User')
+      end
+
+      should "accept AR options" do
+        @metallica = Factory(:metallica)
+        @sam.follow(@metallica)
+        assert_equal 1, @sam.following_by_type('Band', :limit => 1).count
       end
     end
 
