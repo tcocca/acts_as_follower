@@ -25,7 +25,7 @@ namespace :rcov do
 
   desc "Generate a coverage report in coverage/"
   task :gen do
-    sh "rcov --output coverage test/*_test.rb"
+    sh "rcov --output coverage test/*_test.rb --exclude 'gems/*'"
   end
 
   desc "Remove generated coverage files."
