@@ -100,6 +100,16 @@ class ActsAsFollowerTest < Test::Unit::TestCase
         end
       end
 
+      context "following_by_type_count" do
+        should "return the count of the requested type" do
+          assert_equal 1, @sam.following_by_type_count('Band')
+          assert_equal 1, @sam.following_by_type_count('User')
+          assert_equal 0, @jon.following_by_type_count('Band')
+          @jon.block(@sam)
+          assert_equal 0, @sam.following_by_type_count('User')
+        end
+      end
+
       context "all_follows" do
         should "return all follows" do
           assert_equal 2, @sam.all_follows.size
@@ -144,6 +154,14 @@ class ActsAsFollowerTest < Test::Unit::TestCase
       should "call following_by_type" do
         assert_equal [@oasis], @sam.following_bands
         assert_equal [@jon], @sam.following_users
+      end
+
+      should "call following_by_type_count" do
+        assert_equal 1, @sam.following_bands_count
+        assert_equal 1, @sam.following_users_count
+        assert_equal 0, @jon.following_bands_count
+        @jon.block(@sam)
+        assert_equal 0, @sam.following_users_count
       end
 
       should "raise on no method" do
