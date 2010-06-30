@@ -38,7 +38,7 @@ class ActsAsFollowerTest < Test::Unit::TestCase
       end
     end
 
-    context "follow" do
+    context "follow a friend" do
       setup do
         @jon.follow(@sam)
       end
@@ -52,6 +52,23 @@ class ActsAsFollowerTest < Test::Unit::TestCase
 
       should "set the followable" do
         assert_equal @sam, Follow.last.followable
+      end
+    end
+
+    context "follow yourself" do
+      setup do
+        @jon.follow(@jon)
+      end
+
+      should_not_change("Follow count") { Follow.count }
+      should_not_change("@jon.follow_count") { @jon.follow_count }
+
+      should "not set the follower" do
+        assert_not_equal @jon, Follow.last.follower
+      end
+
+      should "not set the followable" do
+        assert_not_equal @jon, Follow.last.followable
       end
     end
 

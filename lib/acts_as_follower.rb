@@ -38,7 +38,9 @@ module ActiveRecord #:nodoc:
         def follow(followable)
           follow = get_follow(followable)
           unless follow
-            Follow.create(:followable => followable, :follower => self)
+            if self != followable
+              Follow.create(:followable => followable, :follower => self)
+            end
           end
         end
 
