@@ -26,6 +26,19 @@ module ActiveRecord #:nodoc:
           self.followings.unblocked.count
         end
 
+        # Returns the followers by a given type
+        def followers_by_type(follower_type, options={})
+          ar_options = {
+            :include => [:follower],
+            :conditions => ["follower_type = ?", follower_type]
+          }.merge(options)
+          self.followings.unblocked.find(:all, ar_options).collect{|f| f.follower}
+        end
+
+        def followers_by_type_count(follower_type)
+          self.followings.unblocked.count(:all, :conditions => ["follower_type = ?", follower_type])
+        end
+
         def blocked_followers_count
           self.followings.blocked.count
         end

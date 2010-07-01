@@ -18,6 +18,8 @@ class ActsAsFollowableTest < Test::Unit::TestCase
     setup do
       @sam = Factory(:sam)
       @jon = Factory(:jon)
+      @oasis = Factory(:oasis)
+      @metallica = Factory(:metallica)
       @sam.follow(@jon)
     end
 
@@ -181,6 +183,32 @@ class ActsAsFollowableTest < Test::Unit::TestCase
       end
     end
 
+    context "followers_by_type" do
+      setup do
+        @sam.follow(@oasis)
+        @jon.follow(@oasis)
+      end
+
+      should "return the followers for given type" do
+        assert_equal [@sam], @jon.followers_by_type('User')
+        assert_equal [@sam,@jon], @oasis.followers_by_type('User')
+      end
+
+      should "not return block followers in the followers for a given type" do
+        @oasis.block(@jon)
+        assert_equal [@sam], @oasis.followers_by_type('User')
+      end
+
+      should "return the count for followers_by_type_count for a given type" do
+        assert_equal 1, @jon.followers_by_type_count('User')
+        assert_equal 2, @oasis.followers_by_type_count('User')
+      end
+
+      should "not count blocked follows in the count" do
+        @oasis.block(@sam)
+        assert_equal 1, @oasis.followers_by_type_count('User')
+      end
+    end
   end
 
 end

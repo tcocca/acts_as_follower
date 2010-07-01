@@ -37,10 +37,8 @@ module ActiveRecord #:nodoc:
         # Does not allow duplicate records to be created.
         def follow(followable)
           follow = get_follow(followable)
-          unless follow
-            if self != followable
-              Follow.create(:followable => followable, :follower => self)
-            end
+          if follow.blank? && self != followable
+            Follow.create(:followable => followable, :follower => self)
           end
         end
 
@@ -65,7 +63,7 @@ module ActiveRecord #:nodoc:
         # Returns the follow records related to this instance with the followable included.
         def all_follows(options={})
           options = {
-            :include => :followable
+            :include => [:followable]
           }.merge(options)
 
           self.follows.unblocked.all(options)
