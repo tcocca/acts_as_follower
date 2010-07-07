@@ -209,6 +209,33 @@ class ActsAsFollowableTest < Test::Unit::TestCase
         assert_equal 1, @oasis.followers_by_type_count('User')
       end
     end
+
+    context "method_missing" do
+      setup do
+        @sam.follow(@oasis)
+        @jon.follow(@oasis)
+      end
+
+      should "return the followers for given type" do
+        assert_equal [@sam], @jon.user_followers
+        assert_equal [@sam,@jon], @oasis.user_followers
+      end
+
+      should "not return block followers in the followers for a given type" do
+        @oasis.block(@jon)
+        assert_equal [@sam], @oasis.user_followers
+      end
+
+      should "return the count for followers_by_type_count for a given type" do
+        assert_equal 1, @jon.count_user_followers
+        assert_equal 2, @oasis.count_user_followers
+      end
+
+      should "not count blocked follows in the count" do
+        @oasis.block(@sam)
+        assert_equal 1, @oasis.count_user_followers
+      end
+    end
   end
 
 end

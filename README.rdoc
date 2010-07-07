@@ -76,6 +76,14 @@ To get all followed objects by a certain type use the following.
 There is also a method_missing to accomplish the exact same thing a following_by_type('Book') to make you life easier
   user.following_users # exact same results as user.following_by_type('User')
 
+To get the count of all Follow records by a certain type use the following
+  user.following_by_type_count('Book') # Returns the sql count of the number of followed books by that user
+
+There is also a method_missing to get the count by type
+  user.following_books_count # Calls the user.following_by_type_count('Book') method
+
+The following methods take an optional hash parameter of ActiveRecord options (:limit, :order, etc...)
+  follows_by_type, all_follows, all_following, following_by_type
 ---
 
 === acts_as_followable methods
@@ -85,6 +93,18 @@ To get all the followers of a model that acts_as_followable
 
 To get just the number of follows use
   book.followers_count
+
+To get the followers of a certain type, eg: all followers of type 'User'
+  book.followers_by_type('User') # Returns an array of the user followers
+
+There is also a method_missing for this to make it easier:
+  book.user_followers # Calls followers_by_type('User')
+
+To get just the sql count of the number of followers of a certain type use the following
+  book.followers_by_type_count('User') # Return the count on the number of followers of type 'User'
+
+Again, there is a method_missing for this method as well
+  book.count_user_followers # Calls followers_by_type_count('User')
 
 To see is a model that acts_as_followable is followed by a model that acts_as_follower use the following
   book.followed_by?(user)
@@ -108,6 +128,8 @@ If you only need the number of blocks use the count method provided
 Unblocking deletes all records of that follow, instead of just the :blocked attribute => false the follow is deleted.  So, a user would need to try and follow the book again.
 I would like to hear thoughts on this, I may change this to make the follow as :blocked => false instead of deleting the record.
 
+The following methods take an optional hash parameter of ActiveRecord options (:limit, :order, etc...)
+  followers_by_type, followers, blocks
 ---
 
 === Follow Model
@@ -163,11 +185,11 @@ Thanks to everyone for their interest and time in committing to making this plug
 * TomK32 (Thomas R. Koll) - http://github.com/TomK32
 * drcapulet (Alex Coomans) - http://github.com/drcapulet
 * jhchabran (Jean Hadrien Chabran) - http://github.com/jhchabran
+* arthurgeek (Arthur Zapparoli) - http://github.com/arthurgeek
 
 Please let me know if I missed you.
 
 
 == Copyright
 
-Copyright (c) 2008 - 2009 ( tom dot cocca at gmail dot com ), released under the MIT license.
-
+Copyright (c) 2008 - 2010 ( tom dot cocca at gmail dot com ), released under the MIT license.

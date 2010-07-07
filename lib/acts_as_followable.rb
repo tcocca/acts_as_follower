@@ -39,6 +39,20 @@ module ActiveRecord #:nodoc:
           self.followings.unblocked.count(:all, :conditions => ["follower_type = ?", follower_type])
         end
 
+        # Allows magic names on followers_by_type
+        # e.g. user_followers == followers_by_type('User')
+        # Allows magic names on followers_by_type_count
+        # e.g. count_user_followers == followers_by_type_count('User')
+        def method_missing(m, *args)
+          if m.to_s[/count_(.+)_followers/]
+            followers_by_type_count($1.singularize.classify)
+          elsif m.to_s[/(.+)_followers/]
+            followers_by_type($1.singularize.classify)
+          else
+            super
+          end
+        end
+
         def blocked_followers_count
           self.followings.blocked.count
         end
