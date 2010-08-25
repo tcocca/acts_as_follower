@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper'
 
-class ActsAsFollowerTest < Test::Unit::TestCase
+class ActsAsFollowerTest < ActiveSupport::TestCase
 
   context "instance methods" do
     setup do
