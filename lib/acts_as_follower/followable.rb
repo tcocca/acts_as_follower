@@ -3,15 +3,13 @@ module ActsAsFollower #:nodoc:
 
     def self.included(base)
       base.extend ClassMethods
-      base.class_eval do
-        include FollowerLib
-      end
     end
 
     module ClassMethods
       def acts_as_followable
         has_many :followings, :as => :followable, :dependent => :destroy, :class_name => 'Follow'
         include ActsAsFollower::Followable::InstanceMethods
+        include ActsAsFollower::FollowerLib
       end
     end
 
@@ -25,15 +23,21 @@ module ActsAsFollower #:nodoc:
 
       # Returns the followers by a given type
       def followers_by_type(follower_type, options={})
-        ar_options = {
-          :include => [:follower],
-          :conditions => ["follower_type = ?", follower_type]
-        }.merge(options)
-        self.followings.unblocked.find(:all, ar_options).collect{|f| f.follower}
+        follows = follower_type.constantize.
+          includes(:follows).
+          where('blocked = ?', false).
+          where(
+            "follows.followable_id = ? AND follows.followable_type = ? AND follows.follower_type = ?", 
+            self.id, parent_class_name(self), follower_type
+          )
+        if options.has_key?(:limit)
+          follows = follows.limit(options[:limit])
+        end
+        follows
       end
 
       def followers_by_type_count(follower_type)
-        self.followings.unblocked.count(:all, :conditions => ["follower_type = ?", follower_type])
+        self.followings.unblocked.for_follower_type(follower_type).count
       end
 
       # Allows magic names on followers_by_type
@@ -56,17 +60,11 @@ module ActsAsFollower #:nodoc:
 
       # Returns the following records.
       def followers(options={})
-        options = {
-          :include => [:follower]
-        }.merge(options)
-        self.followings.unblocked.all(options).collect{|f| f.follower}
+        self.followings.unblocked.includes(:follower).all(options).collect{|f| f.follower}
       end
 
       def blocks(options={})
-        options = {
-          :include => [:follower]
-        }.merge(options)
-        self.followings.blocked.all(options).collect{|f| f.follower}
+        self.followings.blocked.includes(:follower).all(options).collect{|f| f.follower}
       end
 
       # Returns true if the current instance is followed by the passed record
@@ -87,7 +85,7 @@ module ActsAsFollower #:nodoc:
       private
 
       def get_follow_for(follower)
-        Follow.find(:first, :conditions => ["followable_id = ? AND followable_type = ? AND follower_id = ? AND follower_type = ?", self.id, parent_class_name(self), follower.id, parent_class_name(follower)])
+        Follow.for_followable(self).for_follower(follower).first
       end
 
       def block_future_follow(follower)
