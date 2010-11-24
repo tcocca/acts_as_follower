@@ -208,6 +208,7 @@ Thanks to everyone for their interest and time in committing to making this plug
 * drcapulet (Alex Coomans) - http://github.com/drcapulet
 * jhchabran (Jean Hadrien Chabran) - http://github.com/jhchabran
 * arthurgeek (Arthur Zapparoli) - http://github.com/arthurgeek
+* xpepermint (Kristijan Sedlak) - http://github.com/xpepermint
 
 Please let me know if I missed you.
 
