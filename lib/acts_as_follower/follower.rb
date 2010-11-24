@@ -2,14 +2,15 @@ module ActsAsFollower #:nodoc:
   module Follower
 
     def self.included(base)
+      base.extend ActsAsFollower::Lib
       base.extend ClassMethods
     end
 
     module ClassMethods
       def acts_as_follower
-        has_many :follows, :as => :follower, :dependent => :destroy
         include ActsAsFollower::Follower::InstanceMethods
-        include ActsAsFollower::FollowerLib
+
+        has_many :follows, :as => :follower, :dependent => :destroy
       end
     end
 

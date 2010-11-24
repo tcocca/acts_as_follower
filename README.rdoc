@@ -29,6 +29,13 @@ Run the following command:
 Run the generator:
   rails generate acts_as_follower
 
+The plugin has a Follow model already included. You can extend the default model by creating
+app/models/follow.rb file with content:
+  class Follow < ActiveRecord::Base
+    belongs_to :followable, :polymorphic => true
+    belongs_to :follower,   :polymorphic => true
+  end
+  
 Rails 3 testing is encouraged, please do your part and report any issues on the github issue tracker if you find any bugs.
 This branch is not running in a production site yet (that I know of), if you are running it in production please let me know!
 
@@ -104,7 +111,8 @@ The following methods take an optional hash parameter of ActiveRecord options (:
 
 To get all the followers of a model that acts_as_followable
   book.followers  # Returns an array of all the followers for that book, a collection of different object types (eg. type User or type Book)
-
+  User.followers_of(book).limit(2)  # Returs an array of 2 followers for that book (scope style)
+  
 To get just the number of follows use
   book.followers_count
 

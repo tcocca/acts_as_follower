@@ -1,7 +1,7 @@
 module ActsAsFollower
-  module FollowerLib
+  module Lib
     
-    private
+    protected
     
     # Retrieves the parent class name if using STI.
     def parent_class_name(obj)

@@ -2,20 +2,23 @@ module ActsAsFollower #:nodoc:
   module Followable
 
     def self.included(base)
+      base.extend ActsAsFollower::Lib
       base.extend ClassMethods
     end
 
     module ClassMethods
       def acts_as_followable
-        has_many :followings, :as => :followable, :dependent => :destroy, :class_name => 'Follow'
         include ActsAsFollower::Followable::InstanceMethods
-        include ActsAsFollower::FollowerLib
+
+        scope :followers_of, lambda{|follower| joins(:follows).where(["follows.followable_id=? AND follows.followable_type=?", follower.id, parent_class_name(follower)]) }
+        
+        has_many :followings, :as => :followable, :dependent => :destroy, :class_name => 'Follow'
       end
     end
 
 
     module InstanceMethods
-
+      
       # Returns the number of followers a record has.
       def followers_count
         self.followings.unblocked.count

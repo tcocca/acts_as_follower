@@ -23,8 +23,4 @@ class ActsAsFollowerGenerator < Rails::Generators::Base
     migration_template 'migration.rb', 'db/migrate/acts_as_follower_migration.rb'
   end
   
-  def create_model
-    template "model.rb", File.join('app/models', "follow.rb")
-  end
-  
 end
