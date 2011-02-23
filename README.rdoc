@@ -9,28 +9,25 @@ Main uses would be for Users to follow other Users or for Users to follow Books,
 
 == Installation
 
-=== The master branch supports rails 2.3.x
+=== The master branch supports rails 3
 
 Run the following command:
-  script/plugin install git://github.com/tcocca/acts_as_follower.git
-
-Run the generator:
-  script/generate acts_as_follower
-
-This will generate a migration file as well as a model called Follow.
-
-=== Rails 3 support
-
-Rails 3 is supported in the following branch: http://github.com/tcocca/acts_as_follower/tree/rails3
-
-Run the following command:
-  rails plugin install git://github.com/tcocca/acts_as_follower.git -r rails3
+  rails plugin install git://github.com/tcocca/acts_as_follower.git
 
 Run the generator:
   rails generate acts_as_follower
 
-Rails 3 testing is encouraged, please do your part and report any issues on the github issue tracker if you find any bugs.
-This branch is not running in a production site yet (that I know of), if you are running it in production please let me know!
+This will generate a migration file as well as a model called Follow.
+
+=== Rails 2.3.x support
+
+Rails 2.3.x is supported in a the rails_2.3.x branch http://github.com/tcocca/acts_as_follower/tree/rails_2.3.x
+
+Run the following command:
+  script/plugin install git://github.com/tcocca/acts_as_follower.git -r rails_2.3.x
+
+Run the generator:
+  script/generate acts_as_follower
 
 == Usage
 
