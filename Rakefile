@@ -17,9 +17,9 @@ desc 'Generate documentation for the acts_as_follower gem.'
 Rake::RDocTask.new(:rdoc) do |rdoc|
   rdoc.rdoc_dir = 'rdoc'
   rdoc.title    = 'Acts As Follower'
+  rdoc.main     = 'README.rdoc'
   rdoc.options << '--line-numbers' << '--inline-source'
-  rdoc.rdoc_files.include('README')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+  rdoc.rdoc_files.include('README.rdoc', 'lib/**/*.rb')
 end
 
 namespace :rcov do
