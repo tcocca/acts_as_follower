@@ -18,7 +18,8 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
+  s.add_development_dependency "sqlite3"
   s.add_development_dependency "shoulda"
   s.add_development_dependency "factory_girl"
-  # s.add_runtime_dependency "rest-client"
+  s.add_development_dependency "rails", "~>3.0.10"
 end
