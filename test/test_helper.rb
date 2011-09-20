@@ -9,8 +9,6 @@ ActiveRecord::Migration.verbose = false
 
 load(File.dirname(__FILE__) + '/schema.rb')
 
-require File.dirname(__FILE__) + '/models/band'
-require File.dirname(__FILE__) + '/models/user'
 require File.dirname(__FILE__) + '/../lib/generators/templates/model.rb'
 
 require 'shoulda'
