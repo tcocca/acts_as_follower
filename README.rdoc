@@ -1,6 +1,6 @@
 = acts_as_follower
 
-acts_as_follower is a plugin to allow any model to follow any other model.  This is accomplished through a double polymorphic relationship on the Follow model.  There is also built in support for blocking/un-blocking follow records.
+acts_as_follower is a gem to allow any model to follow any other model.  This is accomplished through a double polymorphic relationship on the Follow model.  There is also built in support for blocking/un-blocking follow records.
 
 Main uses would be for Users to follow other Users or for Users to follow Books, etc...
 
@@ -11,8 +11,8 @@ Main uses would be for Users to follow other Users or for Users to follow Books,
 
 === The master branch supports rails 3
 
-Run the following command:
-  rails plugin install git://github.com/tcocca/acts_as_follower.git
+Add the gem to the gemfile:
+  gem "acts_as_follower"
 
 Run the generator:
   rails generate acts_as_follower
@@ -21,7 +21,8 @@ This will generate a migration file as well as a model called Follow.
 
 === Rails 2.3.x support
 
-Rails 2.3.x is supported in a the rails_2.3.x branch http://github.com/tcocca/acts_as_follower/tree/rails_2.3.x
+Rails 2.3.x is supported in the rails_2.3.x branch http://github.com/tcocca/acts_as_follower/tree/rails_2.3.x but must be installed as a plugin.
+The gem version does not work with rails 2.3.x.
 
 Run the following command:
   script/plugin install git://github.com/tcocca/acts_as_follower.git -r rails_2.3.x
