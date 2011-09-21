@@ -1,5 +1,8 @@
 test/debug.log
 coverage
 rdoc
-test/database.yml
 memory
+*.gem
+.rvmrc
+Gemfile.lock
+log

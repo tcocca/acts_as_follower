@@ -1,6 +1,11 @@
-require File.dirname(__FILE__) + '/acts_as_follower/follower'
-require File.dirname(__FILE__) + '/acts_as_follower/followable'
-require File.dirname(__FILE__) + '/acts_as_follower/follower_lib'
+require "acts_as_follower/version"
 
-ActiveRecord::Base.send(:include, ActsAsFollower::Follower)
-ActiveRecord::Base.send(:include, ActsAsFollower::Followable)
+module ActsAsFollower
+  autoload :Follower,     'acts_as_follower/follower'
+  autoload :Followable,   'acts_as_follower/followable'
+  autoload :FollowerLib,  'acts_as_follower/follower_lib'
+  
+  require 'acts_as_follower/railtie' if defined?(Rails) && Rails::VERSION::MAJOR >= 3
+end
+
+
