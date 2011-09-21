@@ -70,8 +70,7 @@ module ActsAsFollower #:nodoc:
       # Returns true if the current instance is followed by the passed record
       # Returns false if the current instance is blocked by the passed record or no follow is found
       def followed_by?(follower)
-        f = get_follow_for(follower)
-        (f && !f.blocked?) ? true : false
+        self.followings.unblocked.for_follower(follower).exists?
       end
 
       def block(follower)
