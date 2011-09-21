@@ -28,9 +28,8 @@ module ActsAsFollower #:nodoc:
       # Creates a new follow record for this instance to follow the passed object.
       # Does not allow duplicate records to be created.
       def follow(followable)
-        follow = get_follow(followable)
-        if follow.blank? && self != followable
-          Follow.create(:followable => followable, :follower => self)
+        if self != followable
+          self.follows.find_or_create_by_followable_id_and_followable_type(followable.id, parent_class_name(followable))
         end
       end
 
