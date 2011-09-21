@@ -85,7 +85,7 @@ module ActsAsFollower #:nodoc:
       private
 
       def get_follow_for(follower)
-        Follow.for_followable(self).for_follower(follower).first
+        self.followings.for_follower(follower).first
       end
 
       def block_future_follow(follower)
