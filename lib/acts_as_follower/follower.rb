@@ -70,7 +70,7 @@ module ActsAsFollower #:nodoc:
       end
 
       def following_by_type_count(followable_type)
-        Follow.unblocked.for_follower(self).for_followable_type(followable_type).count
+        follows.unblocked.for_followable_type(followable_type).count
       end
 
       # Allows magic names on following_by_type
