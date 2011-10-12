@@ -148,7 +148,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
       should "accept AR options" do
         @metallica = Factory(:metallica)
         @sam.follow(@metallica)
-        assert_equal 1, @sam.following_by_type('Band', :limit => 1).count
+        assert_equal 1, @sam.following_by_type('Band', :limit => 1).to_a.size
       end
     end
 

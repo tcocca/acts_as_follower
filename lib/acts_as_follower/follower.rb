@@ -59,7 +59,7 @@ module ActsAsFollower #:nodoc:
       # Returns the actual records of a particular type which this record is following.
       def following_by_type(followable_type, options={})
         follows = followable_type.constantize.
-          includes(:followings).
+          joins(:followings).
           where('blocked = ?', false).
           where(
             "follows.follower_id = ? AND follows.follower_type = ? AND follows.followable_type = ?", 
