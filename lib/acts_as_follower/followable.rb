@@ -24,7 +24,7 @@ module ActsAsFollower #:nodoc:
       # Returns the followers by a given type
       def followers_by_type(follower_type, options={})
         follows = follower_type.constantize.
-          includes(:follows).
+          joins(:follows).
           where('blocked = ?', false).
           where(
             "follows.followable_id = ? AND follows.followable_type = ? AND follows.follower_type = ?", 
