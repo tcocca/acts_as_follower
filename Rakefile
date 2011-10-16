@@ -25,7 +25,6 @@ Rake::RDocTask.new(:rdoc) do |rdoc|
 end
 
 namespace :rcov do
-
   desc "Generate a coverage report in coverage/"
   task :gen do
     sh "rcov --output coverage test/*_test.rb --exclude 'gems/*'"
@@ -35,5 +34,4 @@ namespace :rcov do
   task :clobber do
     sh "rm -rdf coverage"
   end
-
 end

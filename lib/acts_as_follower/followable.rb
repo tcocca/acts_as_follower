@@ -24,11 +24,10 @@ module ActsAsFollower #:nodoc:
       def followers_by_type(follower_type, options={})
         follows = follower_type.constantize.
           includes(:follows).
-          where('blocked = ?', false).
-          where(
-            "follows.followable_id = ? AND follows.followable_type = ? AND follows.follower_type = ?", 
-            self.id, parent_class_name(self), follower_type
-          )
+          where('follows.blocked'         => false,
+                'follows.followable_id'   => self.id, 
+                'follows.followable_type' => parent_class_name(self), 
+                'follows.follower_type'   => follower_type)
         if options.has_key?(:limit)
           follows = follows.limit(options[:limit])
         end
@@ -80,11 +79,11 @@ module ActsAsFollower #:nodoc:
         get_follow_for(follower).try(:delete)
       end
 
-      private
-
       def get_follow_for(follower)
         self.followings.for_follower(follower).first
       end
+
+      private
 
       def block_future_follow(follower)
         follows.create(:followable => self, :follower => follower, :blocked => true)

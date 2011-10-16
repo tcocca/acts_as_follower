@@ -84,6 +84,21 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       should_change("@sam.all_following.size", :by => -1) { @sam.all_following.size }
     end
 
+    context "get follow record" do
+      setup do
+        @bob = Factory(:bob)
+        @follow = @bob.follow(@sam)
+      end
+
+      should "return follow record" do
+        assert_equal @follow, @sam.get_follow_for(@bob)
+      end
+
+      should "return nil" do
+        assert_nil @sam.get_follow_for(@jon)
+      end
+    end
+
     context "blocks" do
       setup do
         @bob = Factory(:bob)
