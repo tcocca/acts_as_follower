@@ -191,14 +191,16 @@ If you have updates or patches or want to contribute I would love to see what yo
 
 Thanks to everyone for their interest and time in committing to making this plugin better.
 
-* dougal (Douglas F Shearer) - http://github.com/dougal
-* jdg (Jonathan George) - http://github.com/jdg
-* m3talsmith (Michael Christenson II) - http://github.com/m3talsmith
-* joergbattermann (Jörg Battermann) - http://github.com/joergbattermann
-* TomK32 (Thomas R. Koll) - http://github.com/TomK32
-* drcapulet (Alex Coomans) - http://github.com/drcapulet
-* jhchabran (Jean Hadrien Chabran) - http://github.com/jhchabran
-* arthurgeek (Arthur Zapparoli) - http://github.com/arthurgeek
+* dougal (Douglas F Shearer) - https://github.com/dougal
+* jdg (Jonathan George) - https://github.com/jdg
+* m3talsmith (Michael Christenson II) - https://github.com/m3talsmith
+* joergbattermann (Jörg Battermann) - https://github.com/joergbattermann
+* TomK32 (Thomas R. Koll) - https://github.com/TomK32
+* drcapulet (Alex Coomans) - https://github.com/drcapulet
+* jhchabran (Jean Hadrien Chabran) - https://github.com/jhchabran
+* arthurgeek (Arthur Zapparoli) - https://github.com/arthurgeek
+* james2m (James McCarthy) - https://github.com/james2m
+* peterjm (Peter McCracken) - https://github.com/peterjm
 
 Please let me know if I missed you.
 

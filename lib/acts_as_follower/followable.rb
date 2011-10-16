@@ -23,13 +23,16 @@ module ActsAsFollower #:nodoc:
       # Returns the followers by a given type
       def followers_by_type(follower_type, options={})
         follows = follower_type.constantize.
-          includes(:follows).
+          joins(:follows).
           where('follows.blocked'         => false,
                 'follows.followable_id'   => self.id, 
                 'follows.followable_type' => parent_class_name(self), 
                 'follows.follower_type'   => follower_type)
         if options.has_key?(:limit)
           follows = follows.limit(options[:limit])
+        end
+        if options.has_key?(:includes)
+          follows = follows.includes(options[:includes])
         end
         follows
       end
