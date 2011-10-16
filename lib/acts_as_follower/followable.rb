@@ -13,7 +13,6 @@ module ActsAsFollower #:nodoc:
       end
     end
 
-
     module InstanceMethods
 
       # Returns the number of followers a record has.

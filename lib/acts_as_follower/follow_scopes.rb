@@ -1,7 +1,6 @@
 module ActsAsFollower #:nodoc:
   module FollowScopes
 
-    # Scopes
     def for_follower(follower)
       where(:follower_id => follower.id, :follower_type => parent_class_name(follower))
     end
@@ -33,7 +32,6 @@ module ActsAsFollower #:nodoc:
     def blocked
       where(:blocked => true)
     end
-    # end Scopes
-    
+
   end
 end
