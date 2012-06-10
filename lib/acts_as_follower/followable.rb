@@ -89,7 +89,7 @@ module ActsAsFollower #:nodoc:
       private
 
       def block_future_follow(follower)
-        follows.create(:followable => self, :follower => follower, :blocked => true)
+        follows.create(:followable => self, :follower => follower, :blocked => true) unless follower == self
       end
 
       def block_existing_follow(follower)
