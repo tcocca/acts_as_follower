@@ -64,9 +64,10 @@ module ActsAsFollower #:nodoc:
         self.followings.unblocked.includes(:follower).all(options).collect{|f| f.follower}
       end
 
-      def blocks(options={})
-        self.followings.blocked.includes(:follower).all(options).collect{|f| f.follower}
-      end
+      # We don't want your blocks! We want our blocks!
+      # def blocks(options={})
+      #  self.followings.blocked.includes(:follower).all(options).collect{|f| f.follower}
+      # end
 
       # Returns true if the current instance is followed by the passed record
       # Returns false if the current instance is blocked by the passed record or no follow is found
