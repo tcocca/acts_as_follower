@@ -251,6 +251,18 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
         assert_equal 1, @oasis.count_user_followers
       end
     end
+
+    context "respond_to?" do
+      should "advertise that it responds to following methods" do
+        assert @oasis.respond_to?(:user_followers)
+        assert @oasis.respond_to?(:user_followers_count)
+      end
+
+      should "return false when called with a nonexistent method" do
+        assert (not @oasis.respond_to?(:foobar))
+      end
+    end
+
   end
 
 end
