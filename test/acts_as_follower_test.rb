@@ -40,11 +40,16 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
 
     context "follow a friend" do
       setup do
+        @original_follow_count = Follow.count
+        @jon_follow_count = @jon.follow_count
         @jon.follow(@sam)
       end
 
-      should_change("Follow count", :by => 1) { Follow.count }
-      should_change("@jon.follow_count", :by => 1) { @jon.follow_count }
+      should "change counts" do
+        assert_equal Follow.count, @original_follow_count + 1
+        @jon.reload
+        assert_equal @jon.follow_count, @jon_follow_count + 1
+      end
 
       should "set the follower" do
         assert_equal @jon, Follow.last.follower
@@ -57,11 +62,16 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
 
     context "follow yourself" do
       setup do
+        @follow_count = Follow.count
+        @jon_follow_count = @jon.follow_count
         @jon.follow(@jon)
       end
 
-      should_not_change("Follow count") { Follow.count }
-      should_not_change("@jon.follow_count") { @jon.follow_count }
+      should "not change counts" do
+        assert_equal Follow.count, @follow_count
+        @jon.reload
+        assert_equal @jon.follow_count, @jon_follow_count
+      end
 
       should "not set the follower" do
         assert_not_equal @jon, Follow.last.follower
@@ -74,11 +84,17 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
 
     context "stop_following" do
       setup do
+        @follow_count = Follow.count
+        @sam_follow_count = @sam.follow_count
         @sam.stop_following(@jon)
       end
 
-      should_change("Follow count", :by => -1) { Follow.count }
-      should_change("@sam.follow_count", :by => -1) { @sam.follow_count }
+      should "change counts" do
+        assert_equal Follow.count, (@follow_count - 1)
+        @sam.reload
+        assert_equal @sam.follow_count, (@sam_follow_count - 1)
+      end
+
     end
 
     context "follows" do
@@ -175,11 +191,16 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
 
     context "destroying follower" do
       setup do
+        @follow_count = Follow.count
+        @sam_follow_count = @sam.follow_count
         @jon.destroy
       end
 
-      should_change("Follow.count", :by => -1) { Follow.count }
-      should_change("@sam.follow_count", :by => -1) { @sam.follow_count }
+      should "change counts" do
+        assert_equal Follow.count, (@follow_count - 1)
+        @sam.reload
+        assert_equal @sam.follow_count, (@sam_follow_count - 1)
+      end
     end
 
     context "blocked by followable" do

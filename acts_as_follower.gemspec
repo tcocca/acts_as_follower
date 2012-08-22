@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "shoulda_create"
-  s.add_development_dependency "shoulda", "3.5.0"
-  s.add_development_dependency "factory_girl", "4.2.0"
+  s.add_development_dependency "shoulda", ">= 3.5.0"
+  s.add_development_dependency "factory_girl", ">= 4.2.0"
   s.add_development_dependency "rails", "~> 4.0.0"
 end

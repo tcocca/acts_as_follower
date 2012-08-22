@@ -5,7 +5,7 @@ FactoryGirl.define do
 
   factory :sam, :class => User do |u|
     u.name 'Sam'
-   end
+  end
 
   factory :bob, :class => User do |u|
     u.name 'Bob'
