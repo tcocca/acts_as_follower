@@ -5,10 +5,11 @@ module ActsAsFollower
 
     # Retrieves the parent class name if using STI.
     def parent_class_name(obj)
-      if obj.class.superclass != ActiveRecord::Base
-        return obj.class.superclass.name
+      klass = obj.class
+      while klass.superclass != ActiveRecord::Base
+        klass = klass.superclass
       end
-      return obj.class.name
+      return klass.name
     end
 
   end
