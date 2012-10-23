@@ -10,6 +10,13 @@ module ActsAsFollower #:nodoc:
         has_many :followings, :as => :followable, :dependent => :destroy, :class_name => 'Follow'
         include ActsAsFollower::Followable::InstanceMethods
         include ActsAsFollower::FollowerLib
+        extend ActsAsFollower::Followable::SingletonMethods
+      end
+    end
+
+    module SingletonMethods
+      def unfollowed
+        self.where("NOT EXISTS (SELECT 1 FROM follows WHERE followable_id = #{self.table_name}.id)")
       end
     end
 
@@ -25,8 +32,8 @@ module ActsAsFollower #:nodoc:
         follows = follower_type.constantize.
           joins(:follows).
           where('follows.blocked'         => false,
-                'follows.followable_id'   => self.id, 
-                'follows.followable_type' => parent_class_name(self), 
+                'follows.followable_id'   => self.id,
+                'follows.followable_type' => parent_class_name(self),
                 'follows.follower_type'   => follower_type)
         if options.has_key?(:limit)
           follows = follows.limit(options[:limit])
