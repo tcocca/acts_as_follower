@@ -2,6 +2,21 @@ require File.dirname(__FILE__) + '/test_helper'
 
 class ActsAsFollowableTest < ActiveSupport::TestCase
 
+  context "class methods" do
+    context "unfollowed" do
+      setup do
+        @sam = Factory(:sam)
+        @oasis = Factory(:oasis)
+        @metallica = Factory(:metallica)
+        @sam.follow(@oasis)
+      end
+
+      should "return unfollowed bands" do
+        assert_equal 1, Band.unfollowed.count
+      end
+    end
+  end
+
   context "instance methods" do
     setup do
       @sam = Factory(:sam)
