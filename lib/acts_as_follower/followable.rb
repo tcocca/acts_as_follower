@@ -16,7 +16,7 @@ module ActsAsFollower #:nodoc:
 
     module SingletonMethods
       def unfollowed
-        self.where("NOT EXISTS (SELECT 1 FROM follows WHERE followable_id = #{self.table_name}.id)")
+        self.where("NOT EXISTS (SELECT 1 FROM follows WHERE followable_id = #{self.table_name}.id AND followable_type = '#{self.model_name}')")
       end
     end
 
