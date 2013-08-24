@@ -2,7 +2,8 @@ module ActsAsFollower #:nodoc:
   module FollowScopes
 
     def for_follower(follower)
-      where(:follower_id => follower.id, :follower_type => parent_class_name(follower))
+      where(:follower_id => follower.id,
+            :follower_type => parent_class_name(follower))
     end
 
     def for_followable(followable)

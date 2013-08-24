@@ -29,7 +29,7 @@ module ActsAsFollower #:nodoc:
       # Does not allow duplicate records to be created.
       def follow(followable)
         if self != followable
-          self.follows.find_or_create_by_followable_id_and_followable_type(followable.id, parent_class_name(followable))
+          self.follows.find_or_create_by(followable_id: followable.id, followable_type: parent_class_name(followable))
         end
       end
 
@@ -42,12 +42,12 @@ module ActsAsFollower #:nodoc:
 
       # Returns the follow records related to this instance by type.
       def follows_by_type(followable_type, options={})
-        self.follows.unblocked.includes(:followable).for_followable_type(followable_type).all(options)
+        self.follows.unblocked.includes(:followable).for_followable_type(followable_type).apply_finder_options(options, true)
       end
 
       # Returns the follow records related to this instance with the followable included.
       def all_follows(options={})
-        self.follows.unblocked.includes(:followable).all(options)
+        self.follows.unblocked.includes(:followable).apply_finder_options(options, true)
       end
 
       # Returns the actual records which this instance is following.
@@ -60,8 +60,8 @@ module ActsAsFollower #:nodoc:
         followables = followable_type.constantize.
           joins(:followings).
           where('follows.blocked'         => false,
-                'follows.follower_id'     => self.id, 
-                'follows.follower_type'   => parent_class_name(self), 
+                'follows.follower_id'     => self.id,
+                'follows.follower_type'   => parent_class_name(self),
                 'follows.followable_type' => followable_type)
         if options.has_key?(:limit)
           followables = followables.limit(options[:limit])
