@@ -158,7 +158,6 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
         end
 
         should "be in the list of blocks" do
-          @sam.block(@jon)
           assert_equal [@jon], @sam.blocks
         end
       end
