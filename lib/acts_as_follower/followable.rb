@@ -59,17 +59,21 @@ module ActsAsFollower #:nodoc:
         self.followings.blocked.count
       end
 
-      # Returns the following records.
+      # Returns the followings records scoped
+      def followers_scoped
+        self.followings.includes(:follower)
+      end
+
       def followers(options={})
-        self.followings.unblocked.includes(:follower).
-          apply_finder_options(options,true).
-          to_a.collect{|f| f.follower}
+        followers_scope = followers_scoped.unblocked
+        followers_scope = apply_options_to_scope(followers_scope, options)
+        followers_scope.to_a.collect{|f| f.follower}
       end
 
       def blocks(options={})
-        self.followings.blocked.includes(:follower).
-          apply_finder_options(options, true).
-          to_a.collect{|f| f.follower}
+        blocked_followers_scope = followers_scoped.blocked
+        blocked_followers_scope = apply_options_to_scope(blocked_followers_scope, options)
+        blocked_followers_scope.to_a.collect{|f| f.follower}
       end
 
       # Returns true if the current instance is followed by the passed record

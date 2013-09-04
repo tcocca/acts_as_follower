@@ -40,14 +40,21 @@ module ActsAsFollower #:nodoc:
         end
       end
 
+      # returns the follows records to the current instance
+      def follows_scoped
+        self.follows.unblocked.includes(:followable)
+      end
+
       # Returns the follow records related to this instance by type.
       def follows_by_type(followable_type, options={})
-        self.follows.unblocked.includes(:followable).for_followable_type(followable_type).apply_finder_options(options, true)
+        follows_scope  = follows_scoped.for_followable_type(followable_type)
+        follows_scope = apply_options_to_scope(follows_scope, options)
       end
 
       # Returns the follow records related to this instance with the followable included.
       def all_follows(options={})
-        self.follows.unblocked.includes(:followable).apply_finder_options(options, true)
+        follows_scope = follows_scoped
+        follows_scope = apply_options_to_scope(follows_scope, options)
       end
 
       # Returns the actual records which this instance is following.
