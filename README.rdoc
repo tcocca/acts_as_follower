@@ -13,6 +13,8 @@ Main uses would be for Users to follow other Users or for Users to follow Books,
 
 === The master branch supports Rails 4
 
+The first release that support Rails 4 is 0.2.0
+
 Add the gem to the gemfile:
   gem "acts_as_follower"
 
@@ -24,9 +26,10 @@ This will generate a migration file as well as a model called Follow.
 === Rails 3.x support
 
 Rails 3 is supports in the rails_3 branch https://github.com/tcocca/acts_as_follower/tree/rails_3
+The last gem release for Rails 3 support was 0.1.1, so install the gem using ~> 0.1.1
 
 Add the gem to the gemfile:
-  gem "acts_as_follower", '~> 1'
+  gem "acts_as_follower", '~> 0.1.1'
 
 or install from the branch
 
@@ -113,6 +116,10 @@ To get the count of all Follow records by a certain type use the following
 There is also a method_missing to get the count by type
   user.following_books_count # Calls the user.following_by_type_count('Book') method
 
+There is now a method that will just return the Arel scope for follows so that you can chain anything else you want onto it:
+  book.follows_scoped
+This does not return the actual follows, just the scope of followings including the followables, essentially:  book.follows.unblocked.includes(:followable)
+
 The following methods take an optional hash parameter of ActiveRecord options (:limit, :order, etc...)
   follows_by_type, all_follows, all_following, following_by_type
 ---
@@ -121,6 +128,10 @@ The following methods take an optional hash parameter of ActiveRecord options (:
 
 To get all the followers of a model that acts_as_followable
   book.followers  # Returns an array of all the followers for that book, a collection of different object types (eg. type User or type Book)
+
+There is also a method that will just return the Arel scope for followers so that you can chain anything else you want onto it:
+  book.followers_scoped
+This does not return the actual followers, just the scope of followings including the followers, essentially:  book.followings.includes(:follower)
 
 To get just the number of follows use
   book.followers_count
