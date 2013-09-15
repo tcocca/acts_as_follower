@@ -4,7 +4,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
 
   context "instance methods" do
     setup do
-      @sam = Factory(:sam)
+      @sam = FactoryGirl.create(:sam)
     end
 
     should "be defined" do
@@ -19,9 +19,9 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
 
   context "acts_as_follower" do
     setup do
-      @sam = Factory(:sam)
-      @jon = Factory(:jon)
-      @oasis = Factory(:oasis)
+      @sam = FactoryGirl.create(:sam)
+      @jon = FactoryGirl.create(:jon)
+      @oasis = FactoryGirl.create(:oasis)
       @sam.follow(@jon)
       @sam.follow(@oasis)
     end
@@ -83,8 +83,8 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
 
     context "follows" do
       setup do
-        @band_follow = Follow.find(:first, :conditions => ["follower_id = ? and follower_type = 'User' and followable_id = ? and followable_type = 'Band'", @sam.id, @oasis.id])
-        @user_follow = Follow.find(:first, :conditions => ["follower_id = ? and follower_type = 'User' and followable_id = ? and followable_type = 'User'", @sam.id, @jon.id])
+        @band_follow = Follow.where("follower_id = ? and follower_type = 'User' and followable_id = ? and followable_type = 'Band'", @sam.id, @oasis.id).first
+        @user_follow = Follow.where("follower_id = ? and follower_type = 'User' and followable_id = ? and followable_type = 'User'", @sam.id, @jon.id).first
       end
 
       context "follows_by_type" do
@@ -94,7 +94,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
         end
 
         should "accept AR options" do
-          @metallica = Factory(:metallica)
+          @metallica = FactoryGirl.create(:metallica)
           @sam.follow(@metallica)
           assert_equal 1, @sam.follows_by_type('Band', :limit => 1).count
         end
@@ -102,7 +102,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
 
       context "following_by_type_count" do
         should "return the count of the requested type" do
-          @metallica = Factory(:metallica)
+          @metallica = FactoryGirl.create(:metallica)
           @sam.follow(@metallica)
           assert_equal 2, @sam.following_by_type_count('Band')
           assert_equal 1, @sam.following_by_type_count('User')
@@ -146,7 +146,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
       end
 
       should "accept AR options" do
-        @metallica = Factory(:metallica)
+        @metallica = FactoryGirl.create(:metallica)
         @sam.follow(@metallica)
         assert_equal 1, @sam.following_by_type('Band', :limit => 1).to_a.size
       end
@@ -159,7 +159,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
       end
 
       should "call following_by_type_count" do
-        @metallica = Factory(:metallica)
+        @metallica = FactoryGirl.create(:metallica)
         @sam.follow(@metallica)
         assert_equal 2, @sam.following_bands_count
         assert_equal 1, @sam.following_users_count

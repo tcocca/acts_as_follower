@@ -12,6 +12,7 @@ load(File.dirname(__FILE__) + '/schema.rb')
 require File.dirname(__FILE__) + '/../lib/generators/templates/model.rb'
 
 require 'shoulda'
+require 'shoulda_create'
 require 'factory_girl'
+ActiveSupport::TestCase.extend(ShouldaCreate)
 FactoryGirl.find_definitions
-

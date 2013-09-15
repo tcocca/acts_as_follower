@@ -4,7 +4,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
 
   context "instance methods" do
     setup do
-      @sam = Factory(:sam)
+      @sam = FactoryGirl.create(:sam)
     end
 
     should "be defined" do
@@ -16,10 +16,10 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
 
   context "acts_as_followable" do
     setup do
-      @sam = Factory(:sam)
-      @jon = Factory(:jon)
-      @oasis = Factory(:oasis)
-      @metallica = Factory(:metallica)
+      @sam = FactoryGirl.create(:sam)
+      @jon = FactoryGirl.create(:jon)
+      @oasis = FactoryGirl.create(:oasis)
+      @metallica = FactoryGirl.create(:metallica)
       @sam.follow(@jon)
     end
 
@@ -30,7 +30,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
 
       should "return the proper number of multiple followers" do
-        @bob = Factory(:bob)
+        @bob = FactoryGirl.create(:bob)
         @sam.follow(@bob)
         assert_equal 0, @sam.followers_count
         assert_equal 1, @jon.followers_count
@@ -45,7 +45,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
 
       should "return users (multiple followers)" do
-        @bob = Factory(:bob)
+        @bob = FactoryGirl.create(:bob)
         @sam.follow(@bob)
         assert_equal [], @sam.followers
         assert_equal [@sam], @jon.followers
@@ -53,7 +53,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
 
       should "return users (multiple followers, complex)" do
-        @bob = Factory(:bob)
+        @bob = FactoryGirl.create(:bob)
         @sam.follow(@bob)
         @jon.follow(@bob)
         assert_equal [], @sam.followers
@@ -62,7 +62,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
 
       should "accept AR options" do
-        @bob = Factory(:bob)
+        @bob = FactoryGirl.create(:bob)
         @bob.follow(@jon)
         assert_equal 1, @jon.followers(:limit => 1).count
       end
@@ -86,7 +86,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
 
     context "get follow record" do
       setup do
-        @bob = Factory(:bob)
+        @bob = FactoryGirl.create(:bob)
         @follow = @bob.follow(@sam)
       end
 
@@ -101,7 +101,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
 
     context "blocks" do
       setup do
-        @bob = Factory(:bob)
+        @bob = FactoryGirl.create(:bob)
         @jon.block(@sam)
         @jon.block(@bob)
       end
