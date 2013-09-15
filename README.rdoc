@@ -92,7 +92,7 @@ You can check to see if an object that acts_as_follower is following another obj
   user.following?(book) # Returns true or false
 
 To get the total number (count) of follows for a user use the following on a model that acts_as_follower
-  user.follow_count # Returns and integer
+  user.follow_count # Returns an integer
 
 To get follow records that have not been blocked use the following
   user.all_follows # returns an array of Follow records
