@@ -6,6 +6,9 @@ Main uses would be for Users to follow other Users or for Users to follow Books,
 
 (Basically, to develop the type of follow system that GitHub has)
 
+https://api.travis-ci.org/tcocca/acts_as_follower.png
+{<img src="https://travis-ci.org/tcocca/acts_as_follower.png" />}[https://travis-ci.org/tcocca/acts_as_follower]
+
 
 == Installation
 
