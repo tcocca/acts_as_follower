@@ -9,10 +9,26 @@ Main uses would be for Users to follow other Users or for Users to follow Books,
 
 == Installation
 
-=== The master branch supports rails 3
+=== The master branch supports Rails 4
 
 Add the gem to the gemfile:
   gem "acts_as_follower"
+
+Run the generator:
+  rails generate acts_as_follower
+
+This will generate a migration file as well as a model called Follow.
+
+=== Rails 3.x support
+
+Rails 3 is supports in the rails_3 branch https://github.com/tcocca/acts_as_follower/tree/rails_3
+
+Add the gem to the gemfile:
+  gem "acts_as_follower", '~> 1'
+
+or install from the branch
+
+  gem "acts_as_follower", :git => 'git://github.com/tcocca/acts_as_follower.git', :branch => 'rails_3'
 
 Run the generator:
   rails generate acts_as_follower
