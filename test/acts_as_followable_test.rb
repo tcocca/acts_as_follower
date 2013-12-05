@@ -77,11 +77,17 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
 
     context "destroying a followable" do
       setup do
+        @follow_count = Follow.count
+        @sam_following_count = @sam.all_following.size
         @jon.destroy
       end
 
-      should_change("follow count", :by => -1) { Follow.count }
-      should_change("@sam.all_following.size", :by => -1) { @sam.all_following.size }
+      should "change counts" do
+        assert_equal Follow.count, (@follow_count - 1)
+        @sam.reload
+        assert_equal @sam.all_following.size, (@sam_following_count - 1)
+      end
+
     end
 
     context "get follow record" do
