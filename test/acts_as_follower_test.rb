@@ -173,6 +173,17 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
       end
     end
 
+    context "respond_to?" do
+      should "advertise that it responds to following methods" do
+        assert @sam.respond_to?(:following_users)
+        assert @sam.respond_to?(:following_users_count)
+      end
+
+      should "return false when called with a nonexistent method" do
+        assert (not @sam.respond_to?(:foobar))
+      end
+    end
+
     context "destroying follower" do
       setup do
         @jon.destroy

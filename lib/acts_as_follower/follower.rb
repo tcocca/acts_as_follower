@@ -97,6 +97,10 @@ module ActsAsFollower #:nodoc:
         end
       end
 
+      def respond_to?(m, include_private = false)
+        super || m.to_s[/following_(.+)_count/] || m.to_s[/following_(.+)/]
+      end
+
       # Returns a follow record for the current instance and followable object.
       def get_follow(followable)
         self.follows.unblocked.for_followable(followable).first

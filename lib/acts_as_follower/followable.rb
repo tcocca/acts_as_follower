@@ -55,6 +55,10 @@ module ActsAsFollower #:nodoc:
         end
       end
 
+      def respond_to?(m, include_private = false)
+        super || m.to_s[/count_(.+)_followers/] || m.to_s[/(.+)_followers/]
+      end
+
       def blocked_followers_count
         self.followings.blocked.count
       end
