@@ -109,6 +109,13 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       should "accept AR options" do
         assert_equal 1, @jon.blocks(:limit => 1).count
       end
+
+      context "blocked_by" do
+        should "return blocked status" do
+          assert_equal false, @jon.blocked_by?(@bob)
+          assert_equal true, @sam.blocked_by?(@jon)
+        end
+      end
     end
 
     context "blocking a follower" do

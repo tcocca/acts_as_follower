@@ -86,6 +86,10 @@ module ActsAsFollower #:nodoc:
         self.followings.unblocked.for_follower(follower).first.present?
       end
 
+      def blocked_by?(follower)
+        follower.followings.blocked.for_follower(self).first.present?
+      end
+
       def block(follower)
         get_follow_for(follower) ? block_existing_follow(follower) : block_future_follow(follower)
       end
