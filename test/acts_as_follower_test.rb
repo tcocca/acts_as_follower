@@ -134,8 +134,12 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
         assert_equal [], @jon.all_following
       end
 
-      should "accept AR options" do
+      should "accept AR limit option" do
         assert_equal 1, @sam.all_following(:limit => 1).count
+      end
+
+      should "accept AR where option" do
+        assert_equal 1, @sam.all_following(:where => { :id => @oasis.id }).count
       end
     end
 

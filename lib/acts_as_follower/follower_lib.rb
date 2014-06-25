@@ -22,7 +22,7 @@ module ActsAsFollower
         scope = scope.joins(options[:joins])
       end
       if options.has_key?(:where)
-        scope = scope.order(options[:where])
+        scope = scope.where(options[:where])
       end
       if options.has_key?(:order)
         scope = scope.order(options[:order])
