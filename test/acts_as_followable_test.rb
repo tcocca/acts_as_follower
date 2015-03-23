@@ -275,7 +275,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
 
       should "return false when called with a nonexistent method" do
-        assert (not @oasis.respond_to?(:foobar))
+        assert (@oasis.respond_to?(:foobar) == false)
       end
     end
 

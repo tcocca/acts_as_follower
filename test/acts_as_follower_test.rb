@@ -184,7 +184,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
       end
 
       should "return false when called with a nonexistent method" do
-        assert (not @sam.respond_to?(:foobar))
+        assert (@sam.respond_to?(:foobar) == false)
       end
     end
 
