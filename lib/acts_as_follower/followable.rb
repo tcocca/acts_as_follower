@@ -59,6 +59,11 @@ module ActsAsFollower #:nodoc:
         self.followings.blocked.count
       end
 
+      # Returns the following scope.
+      def followers_scoped(options={})
+        self.followings.unblocked.includes(:follower)
+      end
+
       # Returns the following records.
       def followers(options={})
         self.followings.unblocked.includes(:follower).all(options).collect{|f| f.follower}
