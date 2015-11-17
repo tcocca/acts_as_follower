@@ -87,6 +87,7 @@ module ActsAsFollower #:nodoc:
       end
 
       def block(follower)
+        return if follower == self
         get_follow_for(follower) ? block_existing_follow(follower) : block_future_follow(follower)
       end
 

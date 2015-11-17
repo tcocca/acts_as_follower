@@ -112,6 +112,16 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
     end
 
     context "blocking a follower" do
+      context "self blocking" do
+        setup do
+          @jon.block(@jon)
+        end
+
+        should "not be able to block" do
+          assert_equal 0, @jon.blocked_followers_count
+        end
+      end
+
       context "in my following list" do
         setup do
           @jon.block(@sam)
