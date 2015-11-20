@@ -18,8 +18,8 @@ module ActsAsFollower #:nodoc:
       where(:followable_type => followable_type)
     end
 
-    def recent(from)
-      where(["created_at > ?", (from || 2.weeks.ago).to_s(:db)])
+    def recent(from = 2.weeks.ago)
+      where(["created_at > ?", (from).to_s(:db)])
     end
 
     def descending

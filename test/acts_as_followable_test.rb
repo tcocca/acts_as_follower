@@ -14,6 +14,25 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
     end
   end
 
+  context "Follow recent" do
+    setup do
+      @sam = FactoryGirl.create(:sam)
+      @jon = FactoryGirl.create(:jon)
+      Follow.create(followable_id: @jon.id, follower_id: @sam.id, follower_type: 'User',
+                    followable_type: 'User', created_at: 4.weeks.ago)
+      @jon.follow(@sam)
+    end
+
+    should "default returns records from last 2 weeks" do
+      assert_equal 1, Follow.recent.count
+    end
+
+    should "returns records from 4 weeks" do
+      assert_equal 2, Follow.recent(4.weeks.ago).count
+    end
+  end
+
+
   context "acts_as_followable" do
     setup do
       @sam = FactoryGirl.create(:sam)
