@@ -189,7 +189,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
         assert_equal [], @jon.followers
       end
 
-      should "not be in the blockked followers count" do
+      should "not be in the blocked followers count" do
         assert_equal 0, @jon.blocked_followers_count
       end
 
@@ -206,7 +206,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
 
       should "return the followers for given type" do
         assert_equal [@sam], @jon.followers_by_type('User')
-        assert_equal [@sam,@jon], @oasis.followers_by_type('User')
+        assert_equal [@sam, @jon], @oasis.followers_by_type('User')
       end
 
       should "not return block followers in the followers for a given type" do
@@ -233,7 +233,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
 
       should "return the followers for given type" do
         assert_equal [@sam], @jon.user_followers
-        assert_equal [@sam,@jon], @oasis.user_followers
+        assert_equal [@sam, @jon], @oasis.user_followers
       end
 
       should "not return block followers in the followers for a given type" do
