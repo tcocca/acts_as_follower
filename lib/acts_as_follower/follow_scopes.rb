@@ -2,20 +2,20 @@ module ActsAsFollower #:nodoc:
   module FollowScopes
 
     def for_follower(follower)
-      where(:follower_id => follower.id,
-            :follower_type => parent_class_name(follower))
+      where(follower_id: follower.id,
+            follower_type: parent_class_name(follower))
     end
 
     def for_followable(followable)
-      where(:followable_id => followable.id, :followable_type => parent_class_name(followable))
+      where(followable_id: followable.id, followable_type: parent_class_name(followable))
     end
 
     def for_follower_type(follower_type)
-      where(:follower_type => follower_type)
+      where(follower_type: follower_type)
     end
 
     def for_followable_type(followable_type)
-      where(:followable_type => followable_type)
+      where(followable_type: followable_type)
     end
 
     def recent(from)
@@ -27,11 +27,11 @@ module ActsAsFollower #:nodoc:
     end
 
     def unblocked
-      where(:blocked => false)
+      where(blocked: false)
     end
 
     def blocked
-      where(:blocked => true)
+      where(blocked: true)
     end
 
   end
