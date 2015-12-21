@@ -7,7 +7,7 @@ module ActsAsFollower #:nodoc:
 
     module ClassMethods
       def acts_as_followable
-        has_many :followings, :as => :followable, :dependent => :destroy, :class_name => 'Follow'
+        has_many :followings, as: :followable, dependent: :destroy, class_name: 'Follow'
         include ActsAsFollower::Followable::InstanceMethods
         include ActsAsFollower::FollowerLib
       end
@@ -24,10 +24,10 @@ module ActsAsFollower #:nodoc:
       def followers_by_type(follower_type, options={})
         follows = follower_type.constantize.
           joins(:follows).
-          where('follows.blocked'         => false,
-                'follows.followable_id'   => self.id,
-                'follows.followable_type' => parent_class_name(self),
-                'follows.follower_type'   => follower_type)
+          where('follows.blocked' =>          false,
+                'follows.followable_id' =>    self.id,
+                'follows.followable_type' =>  parent_class_name(self),
+                'follows.follower_type' =>    follower_type)
         if options.has_key?(:limit)
           follows = follows.limit(options[:limit])
         end
@@ -101,7 +101,7 @@ module ActsAsFollower #:nodoc:
       private
 
       def block_future_follow(follower)
-        Follow.create(:followable => self, :follower => follower, :blocked => true)
+        Follow.create(followable: self, follower: follower, blocked: true)
       end
 
       def block_existing_follow(follower)
