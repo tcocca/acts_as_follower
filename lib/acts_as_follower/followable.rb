@@ -25,8 +25,8 @@ module ActsAsFollower #:nodoc:
         follows = follower_type.constantize.
           joins(:follows).
           where('follows.blocked'         => false,
-                'follows.followable_id'   => self.id, 
-                'follows.followable_type' => parent_class_name(self), 
+                'follows.followable_id'   => self.id,
+                'follows.followable_type' => parent_class_name(self),
                 'follows.follower_type'   => follower_type)
         if options.has_key?(:limit)
           follows = follows.limit(options[:limit])
@@ -55,24 +55,36 @@ module ActsAsFollower #:nodoc:
         end
       end
 
+      def respond_to?(m, include_private = false)
+        super || m.to_s[/count_(.+)_followers/] || m.to_s[/(.+)_followers/]
+      end
+
       def blocked_followers_count
         self.followings.blocked.count
       end
 
-      # Returns the following records.
+      # Returns the followings records scoped
+      def followers_scoped
+        self.followings.includes(:follower)
+      end
+
       def followers(options={})
-        self.followings.unblocked.includes(:follower).all(options).collect{|f| f.follower}
+        followers_scope = followers_scoped.unblocked
+        followers_scope = apply_options_to_scope(followers_scope, options)
+        followers_scope.to_a.collect{|f| f.follower}
       end
 
       # We don't want your blocks! We want our blocks!
       # def blocks(options={})
-      #  self.followings.blocked.includes(:follower).all(options).collect{|f| f.follower}
+      #   blocked_followers_scope = followers_scoped.blocked
+      #   blocked_followers_scope = apply_options_to_scope(blocked_followers_scope, options)
+      #   blocked_followers_scope.to_a.collect{|f| f.follower}
       # end
 
       # Returns true if the current instance is followed by the passed record
       # Returns false if the current instance is blocked by the passed record or no follow is found
       def followed_by?(follower)
-        self.followings.unblocked.for_follower(follower).exists?
+        self.followings.unblocked.for_follower(follower).first.present?
       end
 
       def block(follower)
@@ -90,7 +102,7 @@ module ActsAsFollower #:nodoc:
       private
 
       def block_future_follow(follower)
-        follows.create(:followable => self, :follower => follower, :blocked => true)
+        Follow.create(:followable => self, :follower => follower, :blocked => true)
       end
 
       def block_existing_follow(follower)

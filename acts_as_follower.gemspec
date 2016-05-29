@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/tcocca/acts_as_follower"
   s.summary     = %q{A Rubygem to add Follow functionality for ActiveRecord models}
   s.description = %q{acts_as_follower is a Rubygem to allow any model to follow any other model. This is accomplished through a double polymorphic relationship on the Follow model. There is also built in support for blocking/un-blocking follow records. Main uses would be for Users to follow other Users or for Users to follow Books, etc… (Basically, to develop the type of follow system that GitHub has)}
+  s.license     = 'MIT'
 
   s.rubyforge_project = "acts_as_follower"
 
@@ -19,7 +20,8 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_development_dependency "sqlite3"
-  s.add_development_dependency "shoulda"
-  s.add_development_dependency "factory_girl"
-  s.add_development_dependency "rails", "~>3.0.10"
+  s.add_development_dependency "shoulda_create"
+  s.add_development_dependency "shoulda", ">= 3.5.0"
+  s.add_development_dependency "factory_girl", ">= 4.2.0"
+  s.add_development_dependency "rails", "~> 4.0.0"
 end

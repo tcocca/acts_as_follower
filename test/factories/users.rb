@@ -1,11 +1,13 @@
-Factory.define :jon, :class => User do |u|
-  u.name 'Jon'
-end
+FactoryGirl.define do
+  factory :jon, class: User do |u|
+    u.name 'Jon'
+  end
 
-Factory.define :sam, :class => User do |u|
-  u.name 'Sam'
-end
+  factory :sam, :class => User do |u|
+    u.name 'Sam'
+   end
 
-Factory.define :bob, :class => User do |u|
-  u.name 'Bob'
+  factory :bob, :class => User do |u|
+    u.name 'Bob'
+  end
 end
