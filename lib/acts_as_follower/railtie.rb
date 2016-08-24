@@ -1,4 +1,3 @@
-require 'acts_as_follower'
 require 'rails'
 
 module ActsAsFollower
