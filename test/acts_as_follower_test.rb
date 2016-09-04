@@ -43,8 +43,8 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
         @jon.follow(@sam)
       end
 
-      should_change("Follow count", :by => 1) { Follow.count }
-      should_change("@jon.follow_count", :by => 1) { @jon.follow_count }
+      should_change("Follow count", by: 1) { Follow.count }
+      should_change("@jon.follow_count", by: 1) { @jon.follow_count }
 
       should "set the follower" do
         assert_equal @jon, Follow.last.follower
@@ -77,8 +77,8 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
         @sam.stop_following(@jon)
       end
 
-      should_change("Follow count", :by => -1) { Follow.count }
-      should_change("@sam.follow_count", :by => -1) { @sam.follow_count }
+      should_change("Follow count", by: -1) { Follow.count }
+      should_change("@sam.follow_count", by: -1) { @sam.follow_count }
     end
 
     context "follows" do
@@ -96,7 +96,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
         should "accept AR options" do
           @metallica = FactoryGirl.create(:metallica)
           @sam.follow(@metallica)
-          assert_equal 1, @sam.follows_by_type('Band', :limit => 1).count
+          assert_equal 1, @sam.follows_by_type('Band', limit: 1).count
         end
       end
 
@@ -121,7 +121,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
         end
 
         should "accept AR options" do
-          assert_equal 1, @sam.all_follows(:limit => 1).count
+          assert_equal 1, @sam.all_follows(limit: 1).count
         end
       end
     end
@@ -135,11 +135,11 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
       end
 
       should "accept AR limit option" do
-        assert_equal 1, @sam.all_following(:limit => 1).count
+        assert_equal 1, @sam.all_following(limit: 1).count
       end
 
       should "accept AR where option" do
-        assert_equal 1, @sam.all_following(:where => { :id => @oasis.id }).count
+        assert_equal 1, @sam.all_following(where: { id: @oasis.id }).count
       end
     end
 
@@ -152,7 +152,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
       should "accept AR options" do
         @metallica = FactoryGirl.create(:metallica)
         @sam.follow(@metallica)
-        assert_equal 1, @sam.following_by_type('Band', :limit => 1).to_a.size
+        assert_equal 1, @sam.following_by_type('Band', limit: 1).to_a.size
       end
     end
 
@@ -193,8 +193,8 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
         @jon.destroy
       end
 
-      should_change("Follow.count", :by => -1) { Follow.count }
-      should_change("@sam.follow_count", :by => -1) { @sam.follow_count }
+      should_change("Follow.count", by: -1) { Follow.count }
+      should_change("@sam.follow_count", by: -1) { @sam.follow_count }
     end
 
     context "blocked by followable" do

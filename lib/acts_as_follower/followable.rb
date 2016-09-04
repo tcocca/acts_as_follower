@@ -7,7 +7,7 @@ module ActsAsFollower #:nodoc:
 
     module ClassMethods
       def acts_as_followable
-        has_many :followings, :as => :followable, :dependent => :destroy, :class_name => 'Follow'
+        has_many :followings, as: :followable, dependent: :destroy, class_name: 'Follow'
         include ActsAsFollower::Followable::InstanceMethods
         include ActsAsFollower::FollowerLib
       end
@@ -102,7 +102,7 @@ module ActsAsFollower #:nodoc:
       private
 
       def block_future_follow(follower)
-        Follow.create(:followable => self, :follower => follower, :blocked => true)
+        Follow.create(followable: self, follower: follower, blocked: true)
       end
 
       def block_existing_follow(follower)
@@ -110,6 +110,5 @@ module ActsAsFollower #:nodoc:
       end
 
     end
-
   end
 end

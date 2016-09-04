@@ -64,7 +64,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       should "accept AR options" do
         @bob = FactoryGirl.create(:bob)
         @bob.follow(@jon)
-        assert_equal 1, @jon.followers(:limit => 1).count
+        assert_equal 1, @jon.followers(limit: 1).count
       end
     end
 
@@ -80,8 +80,8 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
         @jon.destroy
       end
 
-      should_change("follow count", :by => -1) { Follow.count }
-      should_change("@sam.all_following.size", :by => -1) { @sam.all_following.size }
+      should_change("follow count", by: -1) { Follow.count }
+      should_change("@sam.all_following.size", by: -1) { @sam.all_following.size }
     end
 
     context "get follow record" do
@@ -107,7 +107,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
 
       should "accept AR options" do
-        assert_equal 1, @jon.blocks(:limit => 1).count
+        assert_equal 1, @jon.blocks(limit: 1).count
       end
     end
 
@@ -264,5 +264,4 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
     end
 
   end
-
 end
