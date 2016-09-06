@@ -18,4 +18,8 @@ ActiveRecord::Schema.define :version => 0 do
     t.column :name, :string
   end
 
+  create_table :somes, :force => true do |t|
+    t.column :name, :string
+  end
+
 end
