@@ -11,7 +11,14 @@ Main uses would be for Users to follow other Users or for Users to follow Books,
 
 == Installation
 
-=== The master branch supports Rails 4
+=== The master branch supports Rails 5
+
+Add the gem to the gemfile:
+  gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
+
+Other instructions same as for Rails 4.
+
+=== Rails 4.x support
 
 The first release that support Rails 4 is 0.2.0
 
