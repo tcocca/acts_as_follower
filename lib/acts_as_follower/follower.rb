@@ -34,7 +34,7 @@ module ActsAsFollower #:nodoc:
           	followable_type: parent_class_name(followable),
           	follower_id:self.id,
           	follower_type: self.class.name}
-          self.follows.where(params).first_or_create!
+          self.follows.find_or_create_by(params)
         end
       end
 
