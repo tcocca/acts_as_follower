@@ -3,7 +3,7 @@ module ActsAsFollower
 
     private
 
-    DEFAULT_PARENTS = [ApplicationRecord, ActiveRecord::Base]
+    DEFAULT_PARENTS = [ActiveRecord, ActiveRecord::Base]
 
     # Retrieves the parent class name if using STI.
     def parent_class_name(obj)
