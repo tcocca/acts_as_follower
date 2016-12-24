@@ -33,7 +33,7 @@ Add the gem to the gemfile:
 
 or install from the branch
 
-  gem "acts_as_follower", :git => 'git://github.com/tcocca/acts_as_follower.git', :branch => 'rails_3'
+  gem "acts_as_follower", git: 'git://github.com/tcocca/acts_as_follower.git', branch: 'rails_3'
 
 Run the generator:
   rails generate acts_as_follower
@@ -168,7 +168,7 @@ If you only need the number of blocks use the count method provided
   book.blocked_followers_count
 
 Unblocking deletes all records of that follow, instead of just the :blocked attribute => false the follow is deleted.  So, a user would need to try and follow the book again.
-I would like to hear thoughts on this, I may change this to make the follow as :blocked => false instead of deleting the record.
+I would like to hear thoughts on this, I may change this to make the follow as blocked: false instead of deleting the record.
 
 The following methods take an optional hash parameter of ActiveRecord options (:limit, :order, etc...)
   followers_by_type, followers, blocks
