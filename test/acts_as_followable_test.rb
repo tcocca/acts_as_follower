@@ -20,6 +20,8 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       @jon = FactoryGirl.create(:jon)
       @oasis = FactoryGirl.create(:oasis)
       @metallica = FactoryGirl.create(:metallica)
+      @green_day = FactoryGirl.create(:green_day)
+      @blink_182 = FactoryGirl.create(:blink_182)
       @sam.follow(@jon)
     end
 
@@ -222,6 +224,20 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       should "not count blocked follows in the count" do
         @oasis.block(@sam)
         assert_equal 1, @oasis.followers_by_type_count('User')
+      end
+    end
+
+    context "followers_with_sti" do
+      setup do
+        @sam.follow(@green_day)
+        @sam.follow(@blink_182)
+      end
+
+      should "return the followers for given type" do
+        assert_equal @sam.follows_by_type('Band').first.followable, @green_day.becomes(Band)
+        assert_equal @sam.follows_by_type('Band').second.followable, @blink_182.becomes(Band)
+        assert @green_day.followers_by_type('User').include?(@sam)
+        assert @blink_182.followers_by_type('User').include?(@sam)
       end
     end
 
