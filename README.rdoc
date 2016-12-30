@@ -230,6 +230,7 @@ Thanks to everyone for their interest and time in committing to making this plug
 * arthurgeek (Arthur Zapparoli) - https://github.com/arthurgeek
 * james2m (James McCarthy) - https://github.com/james2m
 * peterjm (Peter McCracken) - https://github.com/peterjm
+* merqlove (Alexander Merkulov) - https://github.com/merqlove
 
 Please let me know if I missed you.
 
