@@ -3,9 +3,14 @@ module ActsAsFollower
 
     private
 
+    DEFAULT_PARENTS = [ApplicationRecord, ActiveRecord::Base]
+
     # Retrieves the parent class name if using STI.
     def parent_class_name(obj)
-      obj.class.base_class.name
+      unless parent_classes.include?(obj.class.superclass)
+        return obj.class.base_class.name
+      end
+      obj.class.name
     end
 
     def apply_options_to_scope(scope, options = {})
@@ -27,5 +32,11 @@ module ActsAsFollower
       scope
     end
 
+    def parent_classes
+      return DEFAULT_PARENTS unless ActsAsFollower.custom_parent_classes
+
+      ActiveSupport::Deprecation.warn("Setting custom parent classes is deprecated and will be removed in future versions.")
+      ActsAsFollower.custom_parent_classes + DEFAULT_PARENTS
+    end
   end
 end
