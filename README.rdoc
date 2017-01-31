@@ -112,7 +112,7 @@ To get all Follow records by a certain type use the following
   user.follows_by_type('Book') # returns an array of Follow objects where the followable_type is 'Book'
 
 To get all followed objects by a certain type use the following.
-  user.following_by_type('Book') # Returns an array of all followed objects for user where followable_type is 'Book', this can be a collection of different object types, eg: User, Book
+  user.following_by_type('Book') # Returns an array of all followed objects for user where followable_type is 'Book'
 
 There is also a method_missing to accomplish the exact same thing a following_by_type('Book') to make you life easier
   user.following_users # exact same results as user.following_by_type('User')
