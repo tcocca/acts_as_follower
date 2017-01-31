@@ -74,7 +74,7 @@ module ActsAsFollower #:nodoc:
         followers_scope.to_a.collect{|f| f.follower}
       end
 
-      def blocks(options={})
+      def blocked_followers(options={})
         blocked_followers_scope = followers_scoped.blocked
         blocked_followers_scope = apply_options_to_scope(blocked_followers_scope, options)
         blocked_followers_scope.to_a.collect{|f| f.follower}

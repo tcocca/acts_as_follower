@@ -101,7 +101,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
     end
 
-    context "blocks" do
+    context "blocked_followers" do
       setup do
         @bob = FactoryGirl.create(:bob)
         @jon.block(@sam)
@@ -109,7 +109,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
 
       should "accept AR options" do
-        assert_equal 1, @jon.blocks(limit: 1).count
+        assert_equal 1, @jon.blocked_followers(limit: 1).count
       end
     end
 
@@ -136,8 +136,8 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
           assert_equal [], @jon.followers
         end
 
-        should "be in the list of blocks" do
-          assert_equal [@sam], @jon.blocks
+        should "be in the list of blocked_followers" do
+          assert_equal [@sam], @jon.blocked_followers
         end
       end
 
@@ -159,8 +159,8 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
           assert_equal [], @sam.followers
         end
 
-        should "be in the list of blocks" do
-          assert_equal [@jon], @sam.blocks
+        should "be in the list of blocked_followers" do
+          assert_equal [@jon], @sam.blocked_followers
         end
       end
     end
@@ -177,7 +177,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
 
       should "remove him from the blocked followers" do
         assert_equal 0, @jon.blocked_followers_count
-        assert_equal [], @jon.blocks
+        assert_equal [], @jon.blocked_followers
       end
     end
 
@@ -195,8 +195,8 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
         assert_equal 0, @jon.blocked_followers_count
       end
 
-      should "not be in the blocks list" do
-        assert_equal [], @jon.blocks
+      should "not be in the blocked_followers list" do
+        assert_equal [], @jon.blocked_followers
       end
     end
 

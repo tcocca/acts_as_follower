@@ -169,9 +169,9 @@ To unblock is just as simple
   book.unblock(user)
 
 To get all blocked records
-  book.blocks # Returns an array of blocked follower records (only unblocked) (eg. type User or type Book)
+  book.blocked_followers # Returns an array of blocked follower records (only unblocked) (eg. type User or type Book)
 
-If you only need the number of blocks use the count method provided
+If you only need the number of blocked_followers use the count method provided
   book.blocked_followers_count
 
 Unblocking deletes all records of that follow, instead of just the :blocked attribute => false the follow is deleted.  So, a user would need to try and follow the book again.
