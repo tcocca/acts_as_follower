@@ -8,7 +8,7 @@ module ActsAsFollower
     # Retrieves the parent class name if using STI.
     def parent_class_name(obj)
       unless parent_classes.include?(obj.class.superclass)
-        return obj.class.superclass.name
+        return obj.class.base_class.name
       end
       obj.class.name
     end
@@ -35,6 +35,7 @@ module ActsAsFollower
     def parent_classes
       return DEFAULT_PARENTS unless ActsAsFollower.custom_parent_classes
 
+      ActiveSupport::Deprecation.warn("Setting custom parent classes is deprecated and will be removed in future versions.")
       ActsAsFollower.custom_parent_classes + DEFAULT_PARENTS
     end
   end

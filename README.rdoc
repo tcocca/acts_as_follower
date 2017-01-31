@@ -76,18 +76,6 @@ Make your model(s) that can follow other models acts_as_follower
     ...
   end
 
-Extended setup:
-  # config/initializers/acts_as_follower.rb
-
-  # By default list of parent classes includes only `[ApplicationRecord, ActiveRecord::Base]`.
-  ActsAsFollower.custom_parent_classes = [CustomRecord]
-
-  # OR
-
-  ActsAsFollower.setup do |c|
-    c.custom_parent_classes = [...]
-  end
-
 ---
 
 === acts_as_follower methods
