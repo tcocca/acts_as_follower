@@ -22,8 +22,8 @@ module ActsAsFollower #:nodoc:
     end
 
     # returns Follow records from past 2 weeks with default parameter.
-    def recent(from)
-      where(["created_at > ?", (from || 2.weeks.ago).to_s(:db)])
+    def recent(from = 2.weeks.ago)
+      where(["created_at > ?", (from).to_s(:db)])
     end
 
     # returns Follow records in descending order.
