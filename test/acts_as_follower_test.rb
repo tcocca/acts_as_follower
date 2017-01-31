@@ -9,6 +9,7 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
 
     should "be defined" do
       assert @sam.respond_to?(:following?)
+      assert @sam.respond_to?(:blocking?)
       assert @sam.respond_to?(:follow_count)
       assert @sam.respond_to?(:follow)
       assert @sam.respond_to?(:stop_following)
@@ -35,6 +36,22 @@ class ActsAsFollowerTest < ActiveSupport::TestCase
       should "return follow_count" do
         assert_equal 2, @sam.follow_count
         assert_equal 0, @jon.follow_count
+      end
+    end
+
+    context "blocking" do
+      setup do
+        @jon.block(@sam)
+      end
+
+      should "return blocking_status" do
+        assert_equal false, @sam.blocking?(@jon)
+        assert_equal true, @jon.blocking?(@sam)
+      end
+
+      should "return block_count" do
+        assert_equal 0, @jon.block_count
+        assert_equal 1, @sam.block_count
       end
     end
 

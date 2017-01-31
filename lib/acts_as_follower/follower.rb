@@ -20,9 +20,19 @@ module ActsAsFollower #:nodoc:
         0 < Follow.unblocked.for_follower(self).for_followable(followable).count
       end
 
+      # Returns true if this instance is blocking the object passed as an argument.
+      def blocking?(followable)
+        0 < Follow.blocked.for_follower(followable).for_followable(self).count
+      end
+
       # Returns the number of objects this instance is following.
       def follow_count
         Follow.unblocked.for_follower(self).count
+      end
+
+      # Returns the number of objects this instance is blocked by.
+      def block_count
+        Follow.blocked.for_follower(self).count
       end
 
       # Creates a new follow record for this instance to follow the passed object.
