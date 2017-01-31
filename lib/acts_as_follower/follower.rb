@@ -41,6 +41,15 @@ module ActsAsFollower #:nodoc:
         end
       end
 
+      # Calls `follow` if not following, call `stop_following` if following
+      def toggle_follow(followable)
+        if following? followable
+          stop_following followable
+        else
+          follow followable
+        end
+      end
+
       # returns the follows records to the current instance
       def follows_scoped
         self.follows.unblocked.includes(:followable)
