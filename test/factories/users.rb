@@ -3,11 +3,11 @@ FactoryGirl.define do
     u.name 'Jon'
   end
 
-  factory :sam, :class => User do |u|
+  factory :sam, class: User do |u|
     u.name 'Sam'
    end
 
-  factory :bob, :class => User do |u|
+  factory :bob, class: User do |u|
     u.name 'Bob'
   end
 end
