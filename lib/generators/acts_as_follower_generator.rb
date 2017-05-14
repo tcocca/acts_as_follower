@@ -20,7 +20,7 @@ class ActsAsFollowerGenerator < Rails::Generators::Base
   end
   
   def create_migration_file
-    migration_template 'migration.rb.erb', 'db/migrate/acts_as_follower_migration.rb' #, migration_version: migration_version
+    migration_template 'migration.rb', 'db/migrate/acts_as_follower_migration.rb' #, migration_version: migration_version
   end
   
   def create_model
