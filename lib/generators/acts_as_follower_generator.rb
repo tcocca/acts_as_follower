@@ -20,11 +20,21 @@ class ActsAsFollowerGenerator < Rails::Generators::Base
   end
   
   def create_migration_file
-    migration_template 'migration.rb', 'db/migrate/acts_as_follower_migration.rb'
+    migration_template 'migration.rb', 'db/migrate/acts_as_follower_migration.rb', migration_version: migration_version
   end
   
   def create_model
     template "model.rb", File.join('app/models', "follow.rb")
+  end
+  
+  def migration_version
+     if rails5?
+        "[#{Rails::VERSION::MAJOR}.#{Rails::VERSION::MINOR}]"
+     end
+  end
+  
+  def rails5?
+     Rails.version.start_with? '5'
   end
   
 end
