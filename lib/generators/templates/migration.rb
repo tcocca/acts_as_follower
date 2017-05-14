@@ -1,4 +1,4 @@
-class ActsAsFollowerMigration < ActiveRecord::Migration[Rails::VERSION::STRING[0..2].to_f]
+class ActsAsFollowerMigration < ActiveRecord::Migration<%= migration_version %>
   def self.up
     create_table :follows, force: true do |t|
       t.references :followable, polymorphic: true, null: false
