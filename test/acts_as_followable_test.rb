@@ -279,5 +279,26 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
     end
 
+    context "returns follower info via pluck" do
+      setup do
+        @addy = FactoryGirl.create(:addy)
+        @claire = FactoryGirl.create(:claire)
+        @oasis = FactoryGirl.create(:oasis)
+        @addy.follow(@oasis)
+        @claire.follow(@oasis)
+      end
+
+      should "return values when plucking single attribute of followers" do
+        expected_value = ["addy@example.com", "claire@example.com"]
+        assert_equal expected_value, @oasis.pluck_followers(:email)
+      end
+
+      should "return values when plucking multiple attributes of followers" do
+        expected_value = [["Addison", "addy@example.com"],
+                          ["Claire", "claire@example.com"]]
+        assert_equal expected_value, @oasis.pluck_followers(:name, :email)
+      end
+    end
+
   end
 end
