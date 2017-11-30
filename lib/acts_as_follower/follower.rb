@@ -7,7 +7,7 @@ module ActsAsFollower #:nodoc:
 
     module ClassMethods
       def acts_as_follower
-        has_many :follows, :as => :follower, :dependent => :destroy
+        has_many :follows, as: :follower, dependent: :destroy
         include ActsAsFollower::Follower::InstanceMethods
         include ActsAsFollower::FollowerLib
       end
@@ -29,7 +29,8 @@ module ActsAsFollower #:nodoc:
       # Does not allow duplicate records to be created.
       def follow(followable)
         if self != followable
-          self.follows.find_or_create_by(followable_id: followable.id, followable_type: parent_class_name(followable))
+          params = {followable_id: followable.id, followable_type: parent_class_name(followable)}
+          self.follows.where(params).first_or_create!
         end
       end
 
@@ -107,6 +108,5 @@ module ActsAsFollower #:nodoc:
       end
 
     end
-
   end
 end

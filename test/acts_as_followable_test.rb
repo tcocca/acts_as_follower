@@ -20,6 +20,8 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       @jon = FactoryGirl.create(:jon)
       @oasis = FactoryGirl.create(:oasis)
       @metallica = FactoryGirl.create(:metallica)
+      @green_day = FactoryGirl.create(:green_day)
+      @blink_182 = FactoryGirl.create(:blink_182)
       @sam.follow(@jon)
     end
 
@@ -64,7 +66,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       should "accept AR options" do
         @bob = FactoryGirl.create(:bob)
         @bob.follow(@jon)
-        assert_equal 1, @jon.followers(:limit => 1).count
+        assert_equal 1, @jon.followers(limit: 1).count
       end
     end
 
@@ -80,8 +82,8 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
         @jon.destroy
       end
 
-      should_change("follow count", :by => -1) { Follow.count }
-      should_change("@sam.all_following.size", :by => -1) { @sam.all_following.size }
+      should_change("follow count", by: -1) { Follow.count }
+      should_change("@sam.all_following.size", by: -1) { @sam.all_following.size }
     end
 
     context "get follow record" do
@@ -107,7 +109,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
 
       should "accept AR options" do
-        assert_equal 1, @jon.blocks(:limit => 1).count
+        assert_equal 1, @jon.blocks(limit: 1).count
       end
     end
 
@@ -189,7 +191,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
         assert_equal [], @jon.followers
       end
 
-      should "not be in the blockked followers count" do
+      should "not be in the blocked followers count" do
         assert_equal 0, @jon.blocked_followers_count
       end
 
@@ -206,7 +208,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
 
       should "return the followers for given type" do
         assert_equal [@sam], @jon.followers_by_type('User')
-        assert_equal [@sam,@jon], @oasis.followers_by_type('User')
+        assert_equal [@sam, @jon], @oasis.followers_by_type('User')
       end
 
       should "not return block followers in the followers for a given type" do
@@ -225,6 +227,20 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
       end
     end
 
+    context "followers_with_sti" do
+      setup do
+        @sam.follow(@green_day)
+        @sam.follow(@blink_182)
+      end
+
+      should "return the followers for given type" do
+        assert_equal @sam.follows_by_type('Band').first.followable, @green_day.becomes(Band)
+        assert_equal @sam.follows_by_type('Band').second.followable, @blink_182.becomes(Band)
+        assert @green_day.followers_by_type('User').include?(@sam)
+        assert @blink_182.followers_by_type('User').include?(@sam)
+      end
+    end
+
     context "method_missing" do
       setup do
         @sam.follow(@oasis)
@@ -233,7 +249,7 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
 
       should "return the followers for given type" do
         assert_equal [@sam], @jon.user_followers
-        assert_equal [@sam,@jon], @oasis.user_followers
+        assert_equal [@sam, @jon], @oasis.user_followers
       end
 
       should "not return block followers in the followers for a given type" do
@@ -264,5 +280,4 @@ class ActsAsFollowableTest < ActiveSupport::TestCase
     end
 
   end
-
 end
