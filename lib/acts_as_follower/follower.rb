@@ -99,7 +99,7 @@ module ActsAsFollower #:nodoc:
       end
 
       def respond_to?(m, include_private = false)
-        super || m.to_s[/following_(.+)_count/] || m.to_s[/following_(.+)/]
+        super || !!m.to_s[/following_(.+)_count/] || !!m.to_s[/following_(.+)/]
       end
 
       # Returns a follow record for the current instance and followable object.
