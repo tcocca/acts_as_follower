@@ -41,7 +41,7 @@ module ActsAsFollower #:nodoc:
         end
       end
 
-      # returns the follows records to the current instance
+      # Returns the follows records to the current instance
       def follows_scoped
         self.follows.unblocked.includes(:followable)
       end
