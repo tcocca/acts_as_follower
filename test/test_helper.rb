@@ -16,5 +16,3 @@ require 'shoulda_create'
 require 'factory_girl'
 ActiveSupport::TestCase.extend(ShouldaCreate)
 FactoryGirl.find_definitions
-
-Minitest::Reporters.use!
