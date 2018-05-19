@@ -181,6 +181,14 @@ The following methods take an optional hash parameter of ActiveRecord options (:
   followers_by_type, followers, blocks
 ---
 
+To simulate the Activerecord `pluck` method for followers
+  book.pluck_followers(:name)
+
+This method, like the original `pluck` method, will also take multiple column names as parameters
+  book.pluck_followers(:name, :email)
+
+Note that this method will be applied to all followers, regardless of scope.
+
 === Follow Model
 
 The Follow model has a set of named_scope's.  In case you want to interface directly with the Follow model you can use them.

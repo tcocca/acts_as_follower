@@ -98,6 +98,12 @@ module ActsAsFollower #:nodoc:
         self.followings.for_follower(follower).first
       end
 
+      def pluck_followers(*columns)
+        follower_ids = self.followings.pluck(:follower_id)
+        follower_ids.flat_map { |f| User.where(id: f).pluck(*columns)}
+      end
+
+
       private
 
       def block_future_follow(follower)

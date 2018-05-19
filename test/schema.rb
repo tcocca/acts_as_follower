@@ -1,4 +1,4 @@
-ActiveRecord::Schema.define version: 0 do
+ActiveRecord::Schema.define version: 1 do
 
   create_table :follows, force: true do |t|
     t.integer  "followable_id",   null: false
@@ -12,6 +12,7 @@ ActiveRecord::Schema.define version: 0 do
 
   create_table :users, force: true do |t|
     t.column :name, :string
+    t.column :email, :string
   end
 
   create_table :bands, force: true do |t|

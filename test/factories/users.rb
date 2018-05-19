@@ -10,4 +10,14 @@ FactoryGirl.define do
   factory :bob, class: User do |u|
     u.name 'Bob'
   end
+
+  factory :addy, class: User do |u|
+  	u.name 'Addison'
+  	u.email 'addy@example.com'
+  end
+
+  factory :claire, class: User do |u|
+  	u.name 'Claire'
+  	u.email 'claire@example.com'
+  end
 end
