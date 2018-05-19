@@ -100,7 +100,7 @@ module ActsAsFollower #:nodoc:
 
       def pluck_followers(*columns)
         follower_ids = self.followings.pluck(:follower_id)
-        follower_ids.collect {|f| User.where(id: f).pluck(*columns)}.flatten(1)
+        follower_ids.flat_map { |f| User.where(id: f).pluck(*columns)}
       end
 
 
