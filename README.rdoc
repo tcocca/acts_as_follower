@@ -14,7 +14,7 @@ Main uses would be for Users to follow other Users or for Users to follow Books,
 === The master branch supports Rails 5
 
 Add the gem to the gemfile:
-  gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
+  gem 'acts_as_follower', :git => 'https://github.com/tcocca/acts_as_follower', branch: 'master'
 
 Other instructions same as for Rails 4.
 
