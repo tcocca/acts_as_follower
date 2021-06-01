@@ -33,7 +33,7 @@ module ActsAsFollower
     end
 
     def parent_classes
-      return DEFAULT_PARENTS unless ActsAsFollower.custom_parent_classes
+      return DEFAULT_PARENTS unless ActsAsFollower.custom_parent_classes.present?
 
       ActiveSupport::Deprecation.warn("Setting custom parent classes is deprecated and will be removed in future versions.")
       ActsAsFollower.custom_parent_classes + DEFAULT_PARENTS
