@@ -6,12 +6,16 @@ Main uses would be for Users to follow other Users or for Users to follow Books,
 
 (Basically, to develop the type of follow system that GitHub has)
 
-{<img src="https://travis-ci.org/tcocca/acts_as_follower.png" />}[https://travis-ci.org/tcocca/acts_as_follower]
-
 
 == Installation
 
-=== The master branch supports Rails 5
+=== The master branch supports Rails 7.2+
+To Install, add this to your gemfile:
+  gem 'acts_as_follower', git: 'https://github.com/azeemh/acts_as_follower'
+then
+  bundle update acts_as_follower --source=https://github.com/azeemh/acts_as_follower
+
+=== The original author's master branch supports Rails 5+
 
 Add the gem to the gemfile:
   gem 'acts_as_follower', github: 'tcocca/acts_as_follower', branch: 'master'
