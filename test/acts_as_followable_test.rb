@@ -2,6 +2,36 @@ require File.dirname(__FILE__) + '/test_helper'
 
 class ActsAsFollowableTest < ActiveSupport::TestCase
 
+  context "class methods" do
+    context "unfollowed" do
+      setup do
+        @sam = FactoryGirl.create(:sam)
+        @oasis = FactoryGirl.create(:oasis)
+        @metallica = FactoryGirl.create(:metallica)
+        @sam.follow(@oasis)
+      end
+
+      should "return unfollowed bands" do
+        assert_equal [@metallica.id], Band.unfollowed.pluck(:id)
+      end
+
+      should "include bands whose only follower is blocked" do
+        @oasis.block(@sam)
+        assert_equal [@oasis.id, @metallica.id].sort, Band.unfollowed.pluck(:id).sort
+      end
+
+      should "use the base polymorphic type for inherited models" do
+        @green_day = FactoryGirl.create(:green_day)
+        @sam.follow(@green_day)
+        assert !Band::Punk.unfollowed.exists?(@green_day.id)
+      end
+
+      should "remain chainable" do
+        assert_equal [@metallica.id], Band.unfollowed.where(name: @metallica.name).pluck(:id)
+      end
+    end
+  end
+
   context "instance methods" do
     setup do
       @sam = FactoryGirl.create(:sam)

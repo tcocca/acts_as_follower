@@ -10,6 +10,16 @@ module ActsAsFollower #:nodoc:
         has_many :followings, as: :followable, dependent: :destroy, class_name: 'Follow'
         include ActsAsFollower::Followable::InstanceMethods
         include ActsAsFollower::FollowerLib
+        extend ActsAsFollower::Followable::SingletonMethods
+      end
+    end
+
+    module SingletonMethods
+      def unfollowed
+        followed = Follow.unblocked.
+          where(followable_type: base_class.name).
+          where(Follow.arel_table[:followable_id].eq(arel_table[primary_key]))
+        where(followed.arel.exists.not)
       end
     end
 
